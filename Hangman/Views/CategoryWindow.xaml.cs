@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,11 +15,11 @@ using System.Windows.Shapes;
 namespace Hangman.Views
 {
     /// <summary>
-    /// Interaction logic for StartWindow.xaml
+    /// Interaction logic for CategoryWindow.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class CategoryWindow : Window
     {
-        public StartWindow()
+        public CategoryWindow()
         {
             InitializeComponent();
         }

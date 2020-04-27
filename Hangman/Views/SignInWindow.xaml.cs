@@ -22,35 +22,9 @@ namespace Hangman.Views
     /// </summary>
     public partial class SignInWindow : Window
     {
-        SerializationActions actions = new SerializationActions();
         public SignInWindow()
         {
             InitializeComponent();
-            try
-            {
-                FileStream file = new FileStream("Users.xml", FileMode.Open);
-                file.Dispose();
-            }
-            catch (FileNotFoundException)
-            {
-                return;
-            }
-            DataContext = actions.DeserializeObject("Users.xml");
-        }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            //actions.SerializeObject("Users.xml", DataContext as SignInViewModel);
-            HomeWindow window = new HomeWindow();
-            this.Close();
-            window.Show();
-        }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            StartWindow window = new StartWindow();
-            this.Close();
-            window.Show();
         }
     }
 }

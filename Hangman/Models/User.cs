@@ -28,17 +28,20 @@ namespace Hangman.Models
         [XmlAttribute]
         private string name;
         [XmlAttribute]
-        private string imagePath;
+        private int imageIndex;
+        [XmlAttribute]
+        private Game game;
 
         public User()
         {
-
+            GameProperty = new Game();
         }
 
-        public User(string name, string imagePath)
+        public User(string name, int imageIndex)
         {
             Name = name;
-            ImagePath = imagePath;
+            ImageIndex = imageIndex;
+            //GameProperty = game;
         }
         
         public string Name
@@ -54,16 +57,29 @@ namespace Hangman.Models
             }
         }
 
-        public string ImagePath
+        public int ImageIndex
         {
             get
             {
-                return imagePath;
+                return imageIndex;
             }
             set
             {
-                imagePath = value;
-                NotifyPropertyChanged("Image");
+                imageIndex = value;
+                NotifyPropertyChanged("ImageIndex");
+            }
+        }
+
+        public Game GameProperty
+        {
+            get
+            {
+                return game;
+            }
+            set
+            {
+                game = value;
+                NotifyPropertyChanged("GameProperty");
             }
         }
 

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Hangman.ViewModels;
 
-namespace Hangman.Models
+namespace Hangman.Services
 {
     class SerializationActions
     {
-        public void SerializeObject(string xmlFileName, SignInViewModel entity)
+        public void SerializeSignInVM(string xmlFileName, SignInViewModel entity)
         {
             XmlSerializer xmlser = new XmlSerializer(typeof(SignInViewModel));
             FileStream fileStr = new FileStream(xmlFileName, FileMode.Create);
@@ -19,7 +19,7 @@ namespace Hangman.Models
             fileStr.Dispose();
         }
 
-        public SignInViewModel DeserializeObject(string xmlFileName)
+        public SignInViewModel DeserializeSignInVM(string xmlFileName)
         {
             XmlSerializer xmlser = new XmlSerializer(typeof(SignInViewModel));
             FileStream file = new FileStream(xmlFileName, FileMode.Open);

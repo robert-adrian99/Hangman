@@ -59,14 +59,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Images.cs" />
     <Compile Include="Services\HangmanValidators.cs" />
     <Compile Include="Services\RelayCommand.cs" />
     <Compile Include="Services\SerializationActions.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ChooseViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\NotifyViewModel.cs" />
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="ViewModels\StartViewModel.cs" />
+    <Compile Include="Views\CategoryWindow.xaml.cs">
+      <DependentUpon>CategoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChooseWindow.xaml.cs">
+      <DependentUpon>ChooseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
@@ -111,6 +122,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\CategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChooseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Hangman.Views"
         mc:Ignorable="d"
         xmlns:ctx="clr-namespace:Hangman.ViewModels"
-        Title="SignUpWindow" Height="600" Width="800" ResizeMode="CanMinimize" Icon="/Hangman;component/Assets/Icon.ico" WindowStartupLocation="CenterScreen">
+        Title="Hangman" Height="600" Width="800" ResizeMode="CanMinimize" Icon="/Hangman;component/Assets/Icon.ico" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="60"/>
-            <Setter Property="Width" Value="140"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -31,28 +31,29 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <Window.DataContext>
-        <ctx:SignUpViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Hangman;component/Assets/BackgroundImage.jpg"/>
         </Grid.Background>
 
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="184*"/>
+                <ColumnDefinition Width="213*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="90"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Hangman" FontFamily="MV Boli" Foreground="White" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20"/>
-            <Label Grid.Row="1" Content="Choose a nickname and a picture" FontFamily="MV Boli" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
-            <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30, 90" Content="YOUR NICKNAME" FontSize="20" FontFamily="MV Boli" Background="Transparent" Foreground="White"/>
-            <TextBox Grid.Row="2" Width="300" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30" Background="Transparent" BorderBrush="White" FontSize="30" FontFamily="MV Boli" Foreground="White" VerticalContentAlignment="Center" x:Name="NicknameTextBox" Text="{Binding NameTextBox, UpdateSourceTrigger=PropertyChanged}"/>
-            <Image x:Name="imageSignUp" Grid.Row="2" Source="{Binding ImageSource}" HorizontalAlignment="Right" Margin="110, 0" Height="250" VerticalAlignment="Top"/>
-            <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="➤" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="0, 150, 100, 10" Command="{Binding NextCommand}"/>
-            <Button Grid.Row="2" Content="➤" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Top" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="0,155,250, 15" RenderTransformOrigin="0.5,0.5" Command="{Binding PrevCommand}">
+            <Label Grid.Row="0" Content="Hangman" FontFamily="MV Boli" Foreground="White" FontSize="30" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="330,20,330,0" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="1" Content="Choose a nickname and a picture" FontFamily="MV Boli" Foreground="White" FontSize="25" HorizontalAlignment="Center" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" Width="450" Margin="199,0"/>
+            <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,90,0,0" Content="YOUR NICKNAME" FontSize="20" FontFamily="MV Boli" Background="Transparent" Foreground="White"/>
+            <TextBox Grid.Row="2" Width="300" Height="50" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,136,0,135" Background="Transparent" BorderBrush="White" FontSize="30" FontFamily="MV Boli" Foreground="White" VerticalContentAlignment="Center" x:Name="NicknameTextBox" Text="{Binding NameTextBox, UpdateSourceTrigger=PropertyChanged}"/>
+            <Image x:Name="imageSignUp" Grid.Row="2" Source="{Binding ImageSource}" HorizontalAlignment="Right" Margin="0,0,110,0" Height="250" VerticalAlignment="Top" Grid.Column="1"/>
+            <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="➤" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="0,0,100,10" Command="{Binding NextCommand}" Grid.Column="1"/>
+            <Button Grid.Row="2" Content="➤" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Top" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="0,0,250,15" RenderTransformOrigin="0.5,0.5" Command="{Binding PrevCommand}" Grid.Column="1">
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -62,8 +63,8 @@
                     </TransformGroup>
                 </Button.RenderTransform>
             </Button>
-            <WrapPanel Grid.Row="3">
-                <Button Content="PLAY" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding PlayCommand}"/>
+            <WrapPanel Grid.Row="3" Grid.ColumnSpan="2">
+                <Button Content="SIGN IN" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding SignInCommand}"/>
                 <Button Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding BackCommand}"/>
             </WrapPanel>
         </Grid>

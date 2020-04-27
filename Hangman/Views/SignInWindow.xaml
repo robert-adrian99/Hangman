@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Hangman.Views"
         xmlns:ctx="clr-namespace:Hangman.ViewModels"
         mc:Ignorable="d"
-        Title="SignInWindow" Height="600" Width="800" ResizeMode="CanMinimize" Icon="/Hangman;component/Assets/Icon.ico" WindowStartupLocation="CenterScreen">
+        Title="Hangman" Height="600" Width="800" ResizeMode="CanMinimize" Icon="/Hangman;component/Assets/Icon.ico" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
@@ -30,11 +30,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <!--<ctx:UsersViewModel x:Key="users"/>-->
     </Window.Resources>
-    <Window.DataContext>
-        <ctx:SignInViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/Hangman;component/Assets/BackgroundImage.jpg"/>
@@ -49,18 +45,18 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="Hangman" FontFamily="MV Boli" Foreground="White" FontSize="30" HorizontalAlignment="Center" Margin="0, 20"/>
             <Label Grid.Row="1" Content="Choose your profile" FontFamily="MV Boli" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
-            <ListBox x:Name="listBoxSignUp" Grid.Row="2" Width="229" HorizontalAlignment="Left" Margin="50,0,0,0" FontSize="20" Background="Transparent" FontFamily="MV Boli" Foreground="White" BorderBrush="White" ItemsSource="{Binding UsersList}">
+            <ListBox x:Name="listBoxSignUp" Grid.Row="2" Width="229" HorizontalAlignment="Left" Margin="50,0,0,0" FontSize="20" Background="Transparent" FontFamily="MV Boli" Foreground="White" BorderBrush="White" SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding UsersList}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Image x:Name="imageSignUp" Grid.Row="2" Source="/Assets/Emoji_3.png" HorizontalAlignment="Right" Margin="150, 0" Height="250" VerticalAlignment="Top"/>
+            <Image x:Name="imageSignUp" Grid.Row="2" Source="{Binding ImageSource}" HorizontalAlignment="Right" Margin="150, 0" Height="250" VerticalAlignment="Top"/>
             <WrapPanel Grid.Row="3">
-                <Button Content="DELETE" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding DeleteCommand}"/>
-                <Button Content="PLAY" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="30, 20, 20, 0" Click="PlayButton_Click"/>
-                <Button Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="30, 20, 20, 0" Click="BackButton_Click"/>
+                <Button Content="DELETE" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0"  Command="{Binding DeleteCommand}"/>
+                <Button Content="PLAY" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="30, 20, 20, 0"     Command="{Binding PlayCommand}"/>
+                <Button Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="30, 20, 20, 0"     Command="{Binding BackCommand}"/>
             </WrapPanel>
         </Grid>
     </Grid>

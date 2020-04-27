@@ -10,22 +10,13 @@ using System.ComponentModel;
 using Hangman.Models;
 using Hangman.Views;
 using Hangman.Services;
+using System.Windows;
 
 namespace Hangman.ViewModels
 {
-    class SignUpViewModel : INotifyPropertyChanged
+    public class SignUpViewModel : NotifyViewModel
     {
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-        SerializationActions actions = new SerializationActions();
+        private SerializationActions serializationActions = new SerializationActions();
         private SignInViewModel signInVM = new SignInViewModel();
         private Images images = new Images();
 
@@ -48,7 +39,7 @@ namespace Hangman.ViewModels
                 return;
             }
 
-            signInVM = actions.DeserializeObject("Users.xml");
+            signInVM = new SignInViewModel(serializationActions.DeserializeSignInVM("Users.xml"));
         }
 
         private string nameTextBox;
@@ -131,24 +122,34 @@ namespace Hangman.ViewModels
             }
         }
 
-        private ICommand playCommand;
-        public ICommand PlayCommand
+        private ICommand signInCommand;
+        public ICommand SignInCommand
         {
             get
             {
-                if (playCommand == null)
+                if (signInCommand == null)
                 {
-                    playCommand = new RelayCommand(AddUser, param => CanExecuteCommandPlay);
+                    signInCommand = new RelayCommand(AddUser, param => CanExecuteCommandPlay);
                 }
-                return playCommand;
+                return signInCommand;
             }
         }
 
         public void AddUser(object param)
         {
-            signInVM.UsersList.Add(new User(NameTextBox, ImageSource.UriSource.ToString()));
-            actions.SerializeObject("Users.xml", signInVM);
-            HomeWindow window = new HomeWindow();
+            foreach (var user in signInVM.UsersList)
+            {
+                if (user.Name == NameTextBox)
+                {
+                    MessageBox.Show("This nickname is taken.");
+                    return;
+                }
+            }
+            int index = images.ImagesList.IndexOf(ImageSource);
+            signInVM.UsersList.Add(new User(NameTextBox, index));
+            serializationActions.SerializeSignInVM("Users.xml", signInVM);
+            SignInWindow window = new SignInWindow();
+            window.DataContext = signInVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = window;
             window.Show();
