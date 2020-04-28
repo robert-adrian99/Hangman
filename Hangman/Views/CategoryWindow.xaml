@@ -13,7 +13,7 @@
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="60"/>
-            <Setter Property="Width" Value="100"/>
+            <Setter Property="Width" Value="155"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -42,11 +42,11 @@
         </Grid.Background>
 
         <StackPanel>
-            <Button Grid.Column="0" Grid.Row="1" Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Left" VerticalAlignment="Bottom" Command="{Binding BackCommand}"/>
+            <Button Grid.Column="0" Grid.Row="1" Content=" &lt; BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Left" VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Command="{Binding BackCommand}"/>
             
             <TextBlock Text="Choose a category" FontFamily="MV Boli" Foreground="White" FontSize="50" HorizontalAlignment="Center"/>
 
-            <ListBox x:Name="listBoxSignUp" Grid.Row="2" Width="229" HorizontalAlignment="Center" FontSize="30" Background="Transparent" FontFamily="MV Boli" Foreground="White" BorderBrush="Transparent" SelectedItem="{Binding SelectedCategory}" ItemsSource="{Binding Categories}" Height="350">
+            <ListBox x:Name="listBoxSignUp" Grid.Row="2" Width="229" HorizontalAlignment="Center" FontSize="30" Background="Transparent" FontFamily="MV Boli" Foreground="White" BorderBrush="Transparent" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" Height="320">
             </ListBox>
         </StackPanel>
     </Grid>

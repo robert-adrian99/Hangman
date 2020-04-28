@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<Words xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cars>
+    <string>FORD</string>
+    <string>MERCEDES</string>
+    <string>AUDI</string>
+    <string>OPEL</string>
+    <string>DACIA</string>
+    <string>VOLKSWAGEN</string>
+    <string>FERRARI</string>
+    <string>HONDA</string>
+    <string>SUBARU</string>
+    <string>TOYOTA</string>
+    <string>HYUNDAI</string>
+    <string>RENAULT</string>
+    <string>RANGE ROVER</string>
+    <string>LAND ROVER</string>
+    <string>PEUGEOUT</string>
+    <string>ASTON MARTIN</string>
+    <string>LAMBORGHINI</string>
+    <string>BUGATTI</string>
+    <string>BENTLEY</string>
+    <string>PORSCHE</string>
+  </Cars>
+  <Mountains>
+    <string>HIMALAYAS</string>
+    <string>ROCKY</string>
+    <string>SIERRA NEVADA</string>
+    <string>CARPATHIAN</string>
+    <string>ALPS</string>
+    <string>PYRENEES</string>
+    <string>APPENNINE</string>
+    <string>URAL</string>
+    <string>BALKAN</string>
+    <string>CAUCASUS</string>
+    <string>SCANDINAVIAN</string>
+    <string>PENNINES</string>
+    <string>FUJI</string>
+    <string>KILIMANJARO</string>
+    <string>MONT BLANC</string>
+    <string>OLYMPUS</string>
+    <string>EVEREST</string>
+    <string>APUSENI</string>
+    <string>FAGARAS</string>
+    <string>BUCEGI</string>
+  </Mountains>
+  <Movies>
+    <string>VIKINGS</string>
+    <string>PEAKY BLINDERS</string>
+    <string>LUCIFER</string>
+    <string>LA CASA DE PAPEL</string>
+    <string>CHERNOBYL</string>
+    <string>FRIENDS</string>
+    <string>FROZEN</string>
+    <string>SUICIDE SQUAD</string>
+    <string>BATMAN</string>
+    <string>SUPERMAN</string>
+    <string>SPIERDMAN</string>
+    <string>LION KING</string>
+    <string>JUMANJI</string>
+    <string>RIVERDALE</string>
+    <string>BREAKING BAD</string>
+    <string>AVANGERS</string>
+    <string>MIAMI BICI</string>
+    <string>MIRAGE</string>
+    <string>STAR WARS</string>
+    <string>STAR TREK</string>
+  </Movies>
+  <Rivers>
+    <string>DANUBE</string>
+    <string>VOLGA</string>
+    <string>NILE</string>
+    <string>THAMES</string>
+    <string>SENA</string>
+    <string>PRUT</string>
+    <string>MURES</string>
+    <string>OLT</string>
+    <string>TIBER</string>
+    <string>AMAZON</string>
+    <string>TIMIS</string>
+    <string>MISSISSIPPI</string>
+    <string>MISSOURI</string>
+    <string>SEINE</string>
+    <string>RHINE</string>
+    <string>ELBE</string>
+    <string>MAIN</string>
+    <string>GANGES</string>
+    <string>BRAHMAPUTRA</string>
+    <string>NIAGARA</string>
+  </Rivers>
+  <States>
+    <string>ALABAMA</string>
+    <string>ALASKA</string>
+    <string>CONNECTICUT</string>
+    <string>MASSACHUSETTS</string>
+    <string>COLORADO</string>
+    <string>WASHINGTON</string>
+    <string>CALIFORNIA</string>
+    <string>FLORIDA</string>
+    <string>HAWAII</string>
+    <string>TEXAS</string>
+    <string>TENNESSEE</string>
+    <string>MICHIGAN</string>
+    <string>PENNSYLVANIA</string>
+    <string>NEW YORK</string>
+    <string>NEW JERSEY</string>
+    <string>ARIZONA</string>
+    <string>NORTH CAROLINA</string>
+    <string>ILLINOIS</string>
+    <string>SOUTH CAROLINA</string>
+    <string>MINNESOTA</string>
+  </States>
+</Words>

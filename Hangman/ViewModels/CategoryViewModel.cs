@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Hangman.Models;
 using System.Windows.Input;
-using Hangman.Services;
+using Hangman.Helps;
 using Hangman.Views;
 
 namespace Hangman.ViewModels
 {
     public class CategoryViewModel : NotifyViewModel
     {
+        private bool fromSignUp = false;
         private User user;
         public ObservableCollection<Category> Categories { get; set; }
 
@@ -27,7 +28,7 @@ namespace Hangman.ViewModels
             Categories.Add(Category.States);
         }
 
-        public CategoryViewModel(User user)
+        public CategoryViewModel(User user, bool fromSignUp = false)
         {
             this.user = user;
             Categories = new ObservableCollection<Category>();
@@ -37,9 +38,10 @@ namespace Hangman.ViewModels
             Categories.Add(Category.Movies);
             Categories.Add(Category.Rivers);
             Categories.Add(Category.States);
+            this.fromSignUp = fromSignUp;
         }
 
-        private Category selectedCategory;
+        private Category selectedCategory = Category.None;
         public Category SelectedCategory
         {
             get
@@ -50,13 +52,15 @@ namespace Hangman.ViewModels
             {
                 selectedCategory = value;
                 CategorySelected(selectedCategory);
-                NotifyPropertyChanged("SelectCategory");
+                NotifyPropertyChanged("SelectedCategory");
             }
         }
 
         public void CategorySelected(Category category)
         {
             user.GameProperty.CategoryProperty = category;
+            SerializationActions serializationActions = new SerializationActions();
+            Words words = serializationActions.DeserializeWords(Constants.WordsFile);
             HomeWindow window = new HomeWindow();
             HomeViewModel homeVM = new HomeViewModel(user);
             window.DataContext = homeVM;
@@ -80,12 +84,24 @@ namespace Hangman.ViewModels
 
         public void Back(object param)
         {
-            ChooseWindow window = new ChooseWindow();
-            ChooseViewModel chooseVM = new ChooseViewModel(user);
-            window.DataContext = chooseVM;
-            App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            if(fromSignUp == false)
+            {
+                ChooseWindow chooseWindow = new ChooseWindow();
+                ChooseViewModel chooseVM = new ChooseViewModel(user);
+                chooseWindow.DataContext = chooseVM;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = chooseWindow;
+                chooseWindow.Show();
+            }
+            else
+            {
+                SignInWindow signInWindow = new SignInWindow();
+                SignInViewModel signInVM = new SignInViewModel();
+                signInWindow.DataContext = signInVM;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = signInWindow;
+                signInWindow.Show();
+            }
         }
     }
 }

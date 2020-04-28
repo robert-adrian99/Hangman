@@ -1,5 +1,5 @@
 ﻿using Hangman.Models;
-using Hangman.Services;
+using Hangman.Helps;
 using Hangman.Views;
 using System;
 using System.Collections.Generic;
@@ -9,33 +9,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
 
 namespace Hangman.ViewModels
 {
-    [Serializable]
     public class SignInViewModel : NotifyViewModel
     {
-        SerializationActions actions = new SerializationActions();
+        private SerializationActions serializationActions = new SerializationActions();
         private Images images = new Images();
-        [XmlArray]
-        public ObservableCollection<User> UsersList { get; set; }
+        private UsersList users = new UsersList();
 
         public SignInViewModel()
         {
-            UsersList = new ObservableCollection<User>();
-            ImageSource = new BitmapImage(new Uri(@"/Assets/Emoji_1.png", UriKind.Relative));
+
+            this.users = serializationActions.DeserializeUsers(Constants.UsersFile);
+            ImageSource = users.List.Count > 0 ? new BitmapImage(new Uri(images.Emojis.ElementAt(users.List[0].ImageIndex).UriSource.ToString(), UriKind.Relative)) : new BitmapImage(new Uri(@"/Assets/Emojis/Emoji_1.png", UriKind.Relative));
         }
 
-        public SignInViewModel(SignInViewModel signInVM)
+        public SignInViewModel(UsersList users)
         {
-            this.UsersList = signInVM.UsersList;
-            ImageSource = UsersList.Count > 0 ? new BitmapImage(new Uri(images.ImagesList.ElementAt(UsersList[0].ImageIndex).UriSource.ToString(), UriKind.Relative)) : new BitmapImage(new Uri(@"/Assets/Emoji_1.png", UriKind.Relative));
+            this.users = users;
+            ImageSource = users.List.Count > 0 ? new BitmapImage(new Uri(images.Emojis.ElementAt(users.List[0].ImageIndex).UriSource.ToString(), UriKind.Relative)) : new BitmapImage(new Uri(@"/Assets/Emojis/Emoji_1.png", UriKind.Relative));
+        }
+
+        public ObservableCollection<User> Users
+        {
+            get
+            {
+                return users.List;
+            }
         }
 
         private BitmapImage imageSource;
-
-        [XmlIgnore]
         public BitmapImage ImageSource
         {
             get
@@ -49,40 +53,7 @@ namespace Hangman.ViewModels
             }
         }
 
-        [XmlIgnore]
-        public bool CanExecuteCommand { get; set; } = false;
-
-        private ICommand deleteCommand;
-        public ICommand DeleteCommand
-        {
-            get
-            {
-                if (deleteCommand == null)
-                {
-                    deleteCommand = new RelayCommand(Delete, param => CanExecuteCommand);
-                }
-                return deleteCommand;
-            }
-        }
-
-        public void Delete(object parameter)
-        {
-            foreach (var user in UsersList)
-            {
-                if (user.Name == SelectedUser.Name)
-                {
-                    UsersList.Remove(user);
-                    NotifyPropertyChanged("UsersList");
-                    break;
-                }
-            }
-            SelectedUser = null;
-            CanExecuteCommand = false;
-            actions.SerializeSignInVM("Users.xml", this as SignInViewModel);
-        }
-
         private User selectedUser;
-        [XmlIgnore]
         public User SelectedUser
         {
             get
@@ -95,7 +66,7 @@ namespace Hangman.ViewModels
                 if (selectedUser != null)
                 {
                     ChangeImage(selectedUser);
-                    CanExecuteCommand = true;
+                    CanExecuteCommands = true;
                 }
                 NotifyPropertyChanged("SelectUser");
             }
@@ -103,8 +74,86 @@ namespace Hangman.ViewModels
 
         public void ChangeImage(User user)
         {
-            ImageSource = images.ImagesList[user.ImageIndex];
+            ImageSource = images.Emojis[user.ImageIndex];
         }
+
+        private ICommand addCommand;
+        public ICommand AddCommand
+        {
+            get
+            {
+                if (addCommand == null)
+                {
+                    addCommand = new RelayCommand(Add);
+                }
+                return addCommand;
+            }
+        }
+
+        public void Add(object parameter)
+        {
+            SignUpWindow signUpWindow = new SignUpWindow();
+            SignUpViewModel signUpVM = new SignUpViewModel(users);
+            signUpWindow.DataContext = signUpVM;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = signUpWindow;
+            signUpWindow.Show();
+        }
+
+        public bool CanExecuteCommands { get; set; } = false;
+
+        private ICommand editCommand;
+        public ICommand EditCommand
+        {
+            get
+            {
+                if (editCommand == null)
+                {
+                    editCommand = new RelayCommand(Edit, param => CanExecuteCommands);
+                }
+                return editCommand;
+            }
+        }
+
+        public void Edit(object param)
+        {
+            SignUpWindow SignUpWindow = new SignUpWindow();
+            SignUpViewModel signUpVM = new SignUpViewModel(SelectedUser, users);
+            SignUpWindow.DataContext = signUpVM;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = SignUpWindow;
+            SignUpWindow.Show();
+        }
+
+        private ICommand deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (deleteCommand == null)
+                {
+                    deleteCommand = new RelayCommand(Delete, param => CanExecuteCommands);
+                }
+                return deleteCommand;
+            }
+        }
+
+        public void Delete(object parameter)
+        {
+            foreach (var user in users.List)
+            {
+                if (user.Name == SelectedUser.Name)
+                {
+                    users.List.Remove(user);
+                    NotifyPropertyChanged("UsersList");
+                    break;
+                }
+            }
+            SelectedUser = null;
+            CanExecuteCommands = false;
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
+        }
+
 
         private ICommand playCommand;
         public ICommand PlayCommand
@@ -113,7 +162,7 @@ namespace Hangman.ViewModels
             {
                 if (playCommand == null)
                 {
-                    playCommand = new RelayCommand(Play, param => CanExecuteCommand);
+                    playCommand = new RelayCommand(Play, param => CanExecuteCommands);
                 }
                 return playCommand;
             }
@@ -121,12 +170,12 @@ namespace Hangman.ViewModels
 
         public void Play(object param)
         {
-            ChooseWindow window = new ChooseWindow();
+            ChooseWindow chooseWindow = new ChooseWindow();
             ChooseViewModel chooseVM = new ChooseViewModel(SelectedUser);
-            window.DataContext = chooseVM;
+            chooseWindow.DataContext = chooseVM;
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            App.Current.MainWindow = chooseWindow;
+            chooseWindow.Show();
         }
 
         private ICommand backCommand;
@@ -144,10 +193,10 @@ namespace Hangman.ViewModels
 
         public void Back(object param)
         {
-            StartWindow window = new StartWindow();
+            StartWindow startWindow = new StartWindow();
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            App.Current.MainWindow = startWindow;
+            startWindow.Show();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.ComponentModel;
 using Hangman.Models;
 using Hangman.Views;
-using Hangman.Services;
+using Hangman.Helps;
 using System.Windows;
 
 namespace Hangman.ViewModels
@@ -17,21 +17,18 @@ namespace Hangman.ViewModels
     public class SignUpViewModel : NotifyViewModel
     {
         private SerializationActions serializationActions = new SerializationActions();
-        private SignInViewModel signInVM = new SignInViewModel();
+        private UsersList users = new UsersList();
         private Images images = new Images();
+        private bool editMode = false;
+        private string userOldName = "";
 
         public SignUpViewModel()
         {
-            ImageSource = images.ImagesList.ElementAt(0);
-
-            foreach (var image in images.ImagesList)
-            {
-                Console.WriteLine(image.UriSource.ToString());
-            }
+            ImageSource = images.Emojis.ElementAt(0);
 
             try
             {
-                FileStream fileUsr = new FileStream("Users.xml", FileMode.Open);
+                FileStream fileUsr = new FileStream(Constants.UsersFile, FileMode.Open);
                 fileUsr.Dispose();
             }
             catch (FileNotFoundException)
@@ -39,7 +36,23 @@ namespace Hangman.ViewModels
                 return;
             }
 
-            signInVM = new SignInViewModel(serializationActions.DeserializeSignInVM("Users.xml"));
+            this.users = serializationActions.DeserializeUsers(Constants.UsersFile);
+        }
+
+        public SignUpViewModel(User user, UsersList users)
+        {
+            ImageSource = new BitmapImage(new Uri(images.Emojis[user.ImageIndex].UriSource.ToString(), UriKind.Relative));
+            NameTextBox = user.Name;
+            editMode = true;
+            userOldName = user.Name;
+            this.users = users;
+            CanExecuteCommandAddUser = false;
+        }
+
+        public SignUpViewModel(UsersList users)
+        {
+            ImageSource = images.Emojis.ElementAt(0);
+            this.users = users;
         }
 
         private string nameTextBox;
@@ -53,7 +66,10 @@ namespace Hangman.ViewModels
             set
             {
                 nameTextBox = value;
-                CanExecuteCommandPlay = HangmanValidators.CanExecutePlay(NameTextBox);
+                if (editMode == false)
+                {
+                    CanExecuteCommandAddUser = HangmanValidators.CanExecutePlay(NameTextBox);
+                }
                 NotifyPropertyChanged("NameTextBox");
             }
         }
@@ -68,13 +84,28 @@ namespace Hangman.ViewModels
             set
             {
                 imageSource = value;
-                CanExecuteCommandNext = HangmanValidators.CanExecuteNext(ImageSource, images);
-                CanExecuteCommandPrev = HangmanValidators.CanExecutePrev(ImageSource, images);
+                CanExecuteCommandNext = HangmanValidators.CanExecuteNext(imageSource, images);
+                CanExecuteCommandPrev = HangmanValidators.CanExecutePrev(imageSource, images);
                 NotifyPropertyChanged("ImageSource");
             }
         }
 
-        public bool CanExecuteCommandPlay { get; set; } = false;
+        public string PlayLabel
+        {
+            get
+            {
+                if (!editMode)
+                {
+                    return "PLAY";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public bool CanExecuteCommandAddUser { get; set; } = false;
         public bool CanExecuteCommandNext { get; set; } = false;
         public bool CanExecuteCommandPrev { get; set; } = false;
 
@@ -93,10 +124,10 @@ namespace Hangman.ViewModels
 
         public void NextMethod(object param)
         {
-            int index = images.ImagesList.IndexOf(ImageSource);
-            if (index < images.ImagesList.Count - 1)
+            int index = images.Emojis.IndexOf(ImageSource);
+            if (index < images.Emojis.Count - 1)
             {
-                ImageSource = images.ImagesList[++index];
+                ImageSource = images.Emojis[++index];
             }
         }
 
@@ -115,10 +146,10 @@ namespace Hangman.ViewModels
 
         public void PrevMethod(object param)
         {
-            int index = images.ImagesList.IndexOf(ImageSource);
+            int index = images.Emojis.IndexOf(ImageSource);
             if (index > 0)
             {
-                ImageSource = images.ImagesList[--index];
+                ImageSource = images.Emojis[--index];
             }
         }
 
@@ -129,30 +160,65 @@ namespace Hangman.ViewModels
             {
                 if (signInCommand == null)
                 {
-                    signInCommand = new RelayCommand(AddUser, param => CanExecuteCommandPlay);
+                    signInCommand = new RelayCommand(SignIn, param => CanExecuteCommandAddUser);
                 }
                 return signInCommand;
             }
         }
 
-        public void AddUser(object param)
+        public void SignIn(object param)
         {
-            foreach (var user in signInVM.UsersList)
+            if (editMode == true)
             {
-                if (user.Name == NameTextBox)
+                foreach (var user in users.List)
                 {
-                    MessageBox.Show("This nickname is taken.");
-                    return;
+                    if (user.Name == userOldName)
+                    {
+                        users.List.Remove(user);
+                        break;
+                    }
                 }
             }
-            int index = images.ImagesList.IndexOf(ImageSource);
-            signInVM.UsersList.Add(new User(NameTextBox, index));
-            serializationActions.SerializeSignInVM("Users.xml", signInVM);
+            int imageIndex = images.Emojis.IndexOf(ImageSource);
+            users.List.Add(new User(NameTextBox, imageIndex));
             SignInWindow window = new SignInWindow();
+            SignInViewModel signInVM = new SignInViewModel(users);
             window.DataContext = signInVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = window;
             window.Show();
+        }
+
+        private ICommand playCommand;
+        public ICommand PlayCommand
+        {
+            get
+            {
+                if (playCommand == null)
+                {
+                    playCommand = new RelayCommand(AddUserAndPlay, param => CanExecuteCommandAddUser);
+                }
+                return playCommand;
+            }
+        }
+
+        public void AddUserAndPlay(object param)
+        {
+            if (HangmanValidators.CanExecuteAddUser(NameTextBox, users))
+            {
+                MessageBox.Show("This nickname is taken.");
+                return;
+            }
+            int imageIndex = images.Emojis.IndexOf(ImageSource);
+            User user = new User(NameTextBox, imageIndex);
+            users.List.Add(new User(NameTextBox, imageIndex));
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
+            CategoryWindow categoryWindow = new CategoryWindow();
+            CategoryViewModel categoryVM = new CategoryViewModel(user, true);
+            categoryWindow.DataContext = categoryVM;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = categoryWindow;
+            categoryWindow.Show();
         }
 
         private ICommand backCommand;
@@ -170,10 +236,10 @@ namespace Hangman.ViewModels
 
         public void Back(object param)
         {
-            StartWindow window = new StartWindow();
+            StartWindow startWindow = new StartWindow();
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            App.Current.MainWindow = startWindow;
+            startWindow.Show();
         }
     }
 }

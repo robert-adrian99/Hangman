@@ -1,5 +1,5 @@
 ﻿using Hangman.Models;
-using Hangman.Services;
+using Hangman.Helps;
 using Hangman.Views;
 using System;
 using System.Collections.Generic;
@@ -17,18 +17,41 @@ namespace Hangman.ViewModels
         {
             try
             {
-                FileStream file = new FileStream("Users.xml", FileMode.Open);
+                FileStream file = new FileStream(Constants.UsersFile, FileMode.Open);
                 file.Dispose();
                 CanExecuteCommandSignIn = true;
             }
             catch (FileNotFoundException)
             {
                 CanExecuteCommandSignIn = false;
-                //return;
             }
-        }
 
-        SerializationActions actions = new SerializationActions();
+            try
+            {
+                FileStream file = new FileStream(Constants.WordsFile, FileMode.Open);
+                file.Dispose();
+            }
+            catch(FileNotFoundException)
+            {
+                Words words = new Words();
+                words.AddWords();
+                SerializationActions actions = new SerializationActions();
+                actions.SerializeWords(Constants.WordsFile, words);
+            }
+
+            //try
+            //{
+            //    FileStream file = new FileStream("Images.xml", FileMode.Open);
+            //    file.Dispose();
+            //}
+            //catch (FileNotFoundException)
+            //{
+            //    Images images = new Images();
+            //    images.AddImages();
+            //    SerializationActions actions = new SerializationActions();
+            //    actions.SerializeImages("Images.xml", images);
+            //}
+        }
 
         public bool CanExecuteCommandSignIn { get; set; } = false;
 
@@ -47,12 +70,12 @@ namespace Hangman.ViewModels
 
         public void SignIn(object param)
         {
-            SignInWindow window = new SignInWindow();
-            SignInViewModel signInVM = new SignInViewModel(actions.DeserializeSignInVM("Users.xml"));
-            window.DataContext = signInVM;
+            SignInWindow signInWindow = new SignInWindow();
+            SignInViewModel signInVM = new SignInViewModel();
+            signInWindow.DataContext = signInVM;
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            App.Current.MainWindow = signInWindow;
+            signInWindow.Show();
         }
 
         private ICommand signUpCommand;

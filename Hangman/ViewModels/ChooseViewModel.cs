@@ -6,28 +6,22 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Hangman.Models;
-using Hangman.Services;
+using Hangman.Helps;
 using Hangman.Views;
 
 namespace Hangman.ViewModels
 {
     public class ChooseViewModel : NotifyViewModel
     {
-        private SignInViewModel signInVM = new SignInViewModel();
         private SerializationActions serializationActions = new SerializationActions();
         private Images images = new Images();
+        private UsersList users = new UsersList();
         private User user;
-
-        public ChooseViewModel()
-        {
-            signInVM = new SignInViewModel(serializationActions.DeserializeSignInVM("Users.xml"));
-        }
 
         public ChooseViewModel(User user)
         {
             this.user = user;
-            signInVM = new SignInViewModel(serializationActions.DeserializeSignInVM("Users.xml"));
-            foreach (var userFromList in signInVM.UsersList)
+            foreach (var userFromList in users.List)
             {
                 if (userFromList.Name == userFromList.Name)
                 {
@@ -51,7 +45,7 @@ namespace Hangman.ViewModels
         {
             get
             {
-                return images.ImagesList[user.ImageIndex];
+                return images.Emojis[user.ImageIndex];
             }
         }
 
@@ -119,12 +113,12 @@ namespace Hangman.ViewModels
 
         public void Back(object param)
         {
-            SignInWindow window = new SignInWindow();
-            //signInVM = new SignInViewModel(serializationActions.DeserializeSignInVM("Users.xml"));
-            window.DataContext = signInVM;
+            SignInWindow signInWindow = new SignInWindow();
+            SignInViewModel signInVM = new SignInViewModel(); // ? deserializare / users
+            signInWindow.DataContext = signInVM;
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = window;
-            window.Show();
+            App.Current.MainWindow = signInWindow;
+            signInWindow.Show();
         }
     }
 }

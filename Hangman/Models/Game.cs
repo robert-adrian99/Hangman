@@ -10,6 +10,7 @@ namespace Hangman.Models
 {
     public enum Category
     {
+        None,
         All,
         Cars,
         Movies,
@@ -43,6 +44,14 @@ namespace Hangman.Models
         private int level;
         [XmlAttribute]
         private Category category;
+
+        public Game()
+        {
+            wordOnDisplay = "";
+            wordToGuess = "";
+            level = 0;
+            category = Category.All;
+        }
 
         public int LevelProperty
         {

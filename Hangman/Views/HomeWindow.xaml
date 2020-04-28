@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Hangman.Views"
         xmlns:ctx="clr-namespace:Hangman.ViewModels"
         mc:Ignorable="d"
-        Title="Hangman" Height="600" Width="800" ResizeMode="CanMinimize" Icon="/Hangman;component/Assets/Icon.ico" WindowStartupLocation="CenterScreen">
+        Title="Hangman" Height="600" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Icon="/Hangman;component/Assets/Icon.ico">
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
@@ -42,11 +42,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="380"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="100" Background="Transparent" BorderBrush="White" BorderThickness="1">
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="100" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
             <MenuItem Header="File" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
                 <MenuItem Header="New" Background="#2F815D"/>
                 <MenuItem Header="Open" Background="#2F815D"/>
@@ -66,61 +66,68 @@
                 <MenuItem Header="About" Background="#2F815D"/>
             </MenuItem>
         </Menu>
-        <Image Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Source="/Assets/Hang.png" Margin="0, 0, 20, 100"/>
+        
+        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Height="200" VerticalAlignment="Top" Source="{Binding UserImageSource}"/>
+        
+        <Label Grid.Row="1" Grid.Column="0" FontSize="30" Foreground="White" FontFamily="MV Boli" Content="Time remaining:" Width="250" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Label Grid.Row="1" Grid.Column="0" FontSize="30" Foreground="White" FontFamily="MV Boli"  Content="{Binding Timer}" Width="150" Height="60" VerticalAlignment="Top" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
+        
+        <Image Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Source="{Binding HangImageSource}" Margin="0, 50, 20, 100"/>
 
         <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Nickname: " FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <Label Grid.Row="0" Grid.Column="1" Content="{Binding Name}" FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Level: " FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <Label Grid.Row="1" Grid.Column="1" Content="{Binding Level}" FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Category: " FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding Category}" FontSize="30" Foreground="White" FontFamily="MV Boli"/>
-            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0">
+            <Label Grid.Row="1" Grid.Column="0" Content="Nickname: " FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="{Binding Name}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="2" Content="Level: " FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="2" Content="{Binding Level}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="1" Content="Category: " FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding Category}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0">
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Q" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="W" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="E" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="R" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="T" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="Y" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="U" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="I" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="O" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="P" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
+                    <Button x:Name="Qbtn" Content="Q" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Qbtn}"/>
+                    <Button x:Name="Wbtn" Content="W" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Wbtn}"/>
+                    <Button x:Name="Ebtn" Content="E" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Ebtn}"/>
+                    <Button x:Name="Rbtn" Content="R" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Rbtn}"/>
+                    <Button x:Name="Tbtn" Content="T" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Tbtn}"/>
+                    <Button x:Name="Ybtn" Content="Y" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Ybtn}"/>
+                    <Button x:Name="Ubtn" Content="U" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Ubtn}"/>
+                    <Button x:Name="Ibtn" Content="I" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Ibtn}"/>
+                    <Button x:Name="Obtn" Content="O" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Obtn}"/>
+                    <Button x:Name="Pbtn" Content="P" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Pbtn}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="A" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="S" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="D" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="F" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="G" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="H" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="J" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="K" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="L" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
+                    <Button x:Name="Abtn" Content="A" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Abtn}"/>
+                    <Button x:Name="Sbtn" Content="S" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Sbtn}"/>
+                    <Button x:Name="Dbtn" Content="D" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Dbtn}"/>
+                    <Button x:Name="Fbtn" Content="F" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Fbtn}"/>
+                    <Button x:Name="Gbtn" Content="G" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Gbtn}"/>
+                    <Button x:Name="Hbtn" Content="H" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Hbtn}"/>
+                    <Button x:Name="Jbtn" Content="J" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Jbtn}"/>
+                    <Button x:Name="Kbtn" Content="K" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Kbtn}"/>
+                    <Button x:Name="Lbtn" Content="L" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Lbtn}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Z" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="X" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="C" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="V" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="B" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="N" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
-                    <Button Content="M" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}"/>
+                    <Button x:Name="Zbtn" Content="Z" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Zbtn}"/>
+                    <Button x:Name="Xbtn" Content="X" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Xbtn}"/>
+                    <Button x:Name="Cbtn" Content="C" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Cbtn}"/>
+                    <Button x:Name="Vbtn" Content="V" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Vbtn}"/>
+                    <Button x:Name="Bbtn" Content="B" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Bbtn}"/>
+                    <Button x:Name="Nbtn" Content="N" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Nbtn}"/>
+                    <Button x:Name="Mbtn" Content="M" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Mbtn}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
 
-        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30" Content="H E ＿ L ＿" FontFamily="MV Boli" FontSize="50" Foreground="White"/>
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" Margin="0, 30" Content="{Binding WordOnDisplay}" FontFamily="MV Boli" FontSize="30" Foreground="White" />
     </Grid>
 </Window>

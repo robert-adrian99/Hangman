@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using Hangman.Models;
 
-namespace Hangman.Services
+namespace Hangman.Helps
 {
     class HangmanValidators
     {
@@ -17,11 +17,22 @@ namespace Hangman.Services
         }
         public static bool CanExecuteNext(BitmapImage image, Images images)
         {
-            return images.ImagesList.IndexOf(image) < images.ImagesList.Count - 1;
+            return images.Emojis.IndexOf(image) < images.Emojis.Count - 1;
         }
         public static bool CanExecutePrev(BitmapImage image, Images images)
         {
-            return images.ImagesList.IndexOf(image) > 0;
+            return images.Emojis.IndexOf(image) > 0;
+        }
+        public static bool CanExecuteAddUser(string name, UsersList users)
+        {
+            foreach (var user in users.List)
+            {
+                if (user.Name == name)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

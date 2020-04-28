@@ -41,7 +41,7 @@ namespace Hangman.Models
         {
             Name = name;
             ImageIndex = imageIndex;
-            //GameProperty = game;
+            GameProperty = new Game();
         }
         
         public string Name

@@ -59,11 +59,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Images.cs" />
-    <Compile Include="Services\HangmanValidators.cs" />
-    <Compile Include="Services\RelayCommand.cs" />
-    <Compile Include="Services\SerializationActions.cs" />
+    <Compile Include="Models\UsersList.cs" />
+    <Compile Include="Models\Words.cs" />
+    <Compile Include="Helps\HangmanValidators.cs" />
+    <Compile Include="Helps\RelayCommand.cs" />
+    <Compile Include="Helps\SerializationActions.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\ChooseViewModel.cs" />
@@ -120,7 +123,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\CategoryWindow.xaml">
       <SubType>Designer</SubType>
@@ -153,43 +155,55 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\BackgroundImage.jpg" />
-    <Resource Include="Assets\Emoji.jpg" />
-    <Resource Include="Assets\Emoji_1.jpg" />
-    <Resource Include="Assets\Emoji_1.png" />
-    <Resource Include="Assets\Emoji_2.jpg" />
-    <Resource Include="Assets\Emoji_2.png" />
-    <Resource Include="Assets\Emoji_3.jpg" />
-    <Resource Include="Assets\Emoji_3.png" />
-    <Resource Include="Assets\Emoji_4.jpg" />
-    <Resource Include="Assets\Emoji_4.png" />
-    <Resource Include="Assets\Emoji_5.jpg" />
-    <Resource Include="Assets\Emoji_5.png" />
-    <Resource Include="Assets\Emoji_6.jpg" />
-    <Resource Include="Assets\Emoji_6.png" />
-    <Resource Include="Assets\Emoji_7.jpg" />
-    <Resource Include="Assets\Emoji_7.png" />
-    <Resource Include="Assets\Emoji_8.jpg" />
-    <Resource Include="Assets\Emoji_8.png" />
-    <Resource Include="Assets\Emoji_9.jpg" />
-    <Resource Include="Assets\Emoji_9.png" />
-    <Resource Include="Assets\Hang.jpg" />
-    <Resource Include="Assets\Hang.png" />
-    <Resource Include="Assets\Hang1.png" />
-    <Resource Include="Assets\Hang2.png" />
-    <Resource Include="Assets\HangArm1.png" />
-    <Resource Include="Assets\HangArm2.png" />
-    <Resource Include="Assets\HangBody.png" />
-    <Resource Include="Assets\HangFoot1.png" />
-    <Resource Include="Assets\HangFoot2.png" />
-    <Resource Include="Assets\HangHead.png" />
-    <Resource Include="Assets\Hangman.png" />
-    <Resource Include="Assets\HangMin.png" />
     <Resource Include="Assets\HomeImage.jpg" />
-    <Resource Include="Assets\HomeImage1.jpg" />
     <Resource Include="Assets\Icon.ico" />
-    <Resource Include="Assets\Icon.png" />
-    <Resource Include="Assets\ToBeCropped.jpg" />
-    <Resource Include="Assets\ToBeCropped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Emojis\Emoji_1.png" />
+    <Resource Include="Assets\Emojis\Emoji_2.png" />
+    <Resource Include="Assets\Emojis\Emoji_3.png" />
+    <Resource Include="Assets\Emojis\Emoji_4.png" />
+    <Resource Include="Assets\Emojis\Emoji_5.png" />
+    <Resource Include="Assets\Emojis\Emoji_6.png" />
+    <Resource Include="Assets\Emojis\Emoji_7.png" />
+    <Resource Include="Assets\Emojis\Emoji_8.png" />
+    <Resource Include="Assets\Emojis\Emoji_9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Hangs\Hang_1.png" />
+    <Resource Include="Assets\Hangs\Hang_4.png" />
+    <Resource Include="Assets\Hangs\Hang_5.png" />
+    <Resource Include="Assets\Hangs\Hang_3.png" />
+    <Resource Include="Assets\Hangs\Hang_6.png" />
+    <Resource Include="Assets\Hangs\Hang_7.png" />
+    <Resource Include="Assets\Hangs\Hang_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Others\Emoji.jpg" />
+    <Resource Include="Assets\Others\Emoji_1.jpg" />
+    <Resource Include="Assets\Others\Emoji_2.jpg" />
+    <Resource Include="Assets\Others\Emoji_3.jpg" />
+    <Resource Include="Assets\Others\Emoji_4.jpg" />
+    <Resource Include="Assets\Others\Emoji_5.jpg" />
+    <Resource Include="Assets\Others\Emoji_6.jpg" />
+    <Resource Include="Assets\Others\Emoji_7.jpg" />
+    <Resource Include="Assets\Others\Emoji_8.jpg" />
+    <Resource Include="Assets\Others\Emoji_9.jpg" />
+    <Resource Include="Assets\Others\Hang.jpg" />
+    <Resource Include="Assets\Others\Hang1.png" />
+    <Resource Include="Assets\Others\Hang2.png" />
+    <Resource Include="Assets\Others\Hangman.png" />
+    <Resource Include="Assets\Others\HangMin.png" />
+    <Resource Include="Assets\Others\HomeImage1.jpg" />
+    <Resource Include="Assets\Others\Icon.png" />
+    <Resource Include="Assets\Others\ToBeCropped.jpg" />
+    <Resource Include="Assets\Others\ToBeCropped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="_XmlFiles\Users.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="_XmlFiles\Words.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,7 +13,7 @@
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="60"/>
-            <Setter Property="Width" Value="200"/>
+            <Setter Property="Width" Value="155"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -47,21 +47,17 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <Button Grid.Column="0" Grid.Row="0" Content=" &lt; BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding BackCommand}"/>
+
         <Image Grid.Column="1" Grid.Row="0" Source="{Binding ImageSource}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Welcome " FontSize="30" Foreground="White" FontFamily="MV Boli" Margin="100,50,0,100"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Welcome " FontSize="30" Foreground="White" FontFamily="MV Boli" Margin="100,60,0,90"/>
 
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" FontSize="30" Foreground="White" FontFamily="MV Boli" Margin="100,100,0,50"/>
-
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Name}" FontSize="30" Foreground="White" FontFamily="MV Boli" Margin="100,110,0,40"/>
         
-        <!--<TextBlock Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Top" Margin="0, 0, 0, 0" FontSize="40" Foreground="White" FontFamily="MV Boli" TextWrapping="Wrap" Width="600">
-                Choose to play a new game or to resume the last game
-        </TextBlock>-->
-
         <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center">
             <Button Grid.Column="0" Grid.Row="1" Content="NEW GAME" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="250" Command="{Binding NewGameCommand}"/>
             <Button Grid.Column="1" Grid.Row="1" Content="RESUME GAME" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300" Command="{Binding ResumeGameCommand}"/>
-            <Button Grid.Column="1" Grid.Row="1" Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="300" Command="{Binding BackCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

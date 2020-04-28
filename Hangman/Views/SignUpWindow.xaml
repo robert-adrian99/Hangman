@@ -13,7 +13,7 @@
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="60"/>
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Width" Value="155"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -47,6 +47,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
+            <Button VerticalAlignment="Top" HorizontalAlignment="Left" Content=" &lt; BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="0" Command="{Binding BackCommand}"/>
             <Label Grid.Row="0" Content="Hangman" FontFamily="MV Boli" Foreground="White" FontSize="30" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Width="200" Margin="330,20,330,0" Grid.ColumnSpan="2"/>
             <Label Grid.Row="1" Content="Choose a nickname and a picture" FontFamily="MV Boli" Foreground="White" FontSize="25" HorizontalAlignment="Center" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" Width="450" Margin="199,0"/>
             <Label Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,90,0,0" Content="YOUR NICKNAME" FontSize="20" FontFamily="MV Boli" Background="Transparent" Foreground="White"/>
@@ -64,8 +65,8 @@
                 </Button.RenderTransform>
             </Button>
             <WrapPanel Grid.Row="3" Grid.ColumnSpan="2">
-                <Button Content="SIGN IN" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding SignInCommand}"/>
-                <Button Content="BACK" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="150, 20, 20, 0" Command="{Binding BackCommand}"/>
+                <Button Content="SIGN IN" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="50, 20, 20, 0" Command="{Binding SignInCommand}"/>
+                <Button Content="{Binding PlayLabel}" Style="{StaticResource ButtonStyle}" FontFamily="MV Boli" Margin="50, 20, 20, 0" Command="{Binding PlayCommand}"/>
             </WrapPanel>
         </Grid>
     </Grid>
