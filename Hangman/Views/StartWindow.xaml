@@ -36,7 +36,28 @@
     </Window.DataContext>
     <Grid>
         <Image Panel.ZIndex="0" Source="/Hangman;component/Assets/HomeImage.jpg" VerticalAlignment="Center" Stretch="Fill"/>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_1.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_1.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,69,67,0">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-30"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_2.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,45,238,0"/>
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_3.png" Height="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="150" Y="-100"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_4.png" Height="100" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5" Margin="25,0,0,20">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -46,77 +67,47 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_2.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_5.png" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="-15,-25,0,0">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="-45"/>
-                    <TranslateTransform X="-250"/>
+                    <RotateTransform Angle="20"/>
+                    <TranslateTransform Y="250" X="250"/>
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_3.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-130"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_4.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-45"/>
-                    <TranslateTransform X="-250" Y="100"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_5.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="45"/>
-                    <TranslateTransform Y="100"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_6.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_6.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,94,85,0">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
                     <SkewTransform/>
-                    <RotateTransform/>
+                    <RotateTransform Angle="20"/>
                     <TranslateTransform Y="100" X="-130"/>
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_7.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_7.png" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="10,27,0,0">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform Angle="-45"/>
-                    <TranslateTransform X="-250" Y="200"/>
+                    <TranslateTransform Y="100"/>
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_8.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_8.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
-                    <TranslateTransform Y="200" X="-130"/>
+                    <TranslateTransform X="-30" Y="-50"/>
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_9.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Image Panel.ZIndex="1" Source="/Hangman;component/Assets/Emojis/Emoji_9.png" Height="100" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Margin="0,30,40,0">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
@@ -127,7 +118,7 @@
             </Image.RenderTransform>
         </Image>
         <Button Content="EXIT" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Margin="0" Command="{Binding ExitCommand}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="50">
+        <WrapPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button Content="SIGN IN" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Margin="20, 20, 50, 20" Command="{Binding SignInCommand}"/>
             <Button Content="SIGN UP" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Margin="0, 20, 50, 20" Command="{Binding SignUpCommand}"/>
         </WrapPanel>

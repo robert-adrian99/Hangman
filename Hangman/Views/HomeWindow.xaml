@@ -94,7 +94,7 @@
             <Label Grid.Row="2" Grid.Column="1" Content="{Binding Category}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
             <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="Qbtn" Content="Q" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Qbtn}"/>
+                    <Button x:Name="Qbtn" Content="Q" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Qbtn}" IsEnabled="{Binding EnabledLetter}"/>
                     <Button x:Name="Wbtn" Content="W" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Wbtn}"/>
                     <Button x:Name="Ebtn" Content="E" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Ebtn}"/>
                     <Button x:Name="Rbtn" Content="R" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Rbtn}"/>

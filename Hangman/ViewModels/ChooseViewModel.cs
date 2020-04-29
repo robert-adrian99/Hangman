@@ -64,7 +64,7 @@ namespace Hangman.ViewModels
 
         public void NewGame(object param)
         {
-            user.GameProperty.LevelProperty = 0;
+            user.GameProperty.LevelProperty = 1;
             CategoryWindow window = new CategoryWindow();
             CategoryViewModel categoryVM = new CategoryViewModel(user);
             window.DataContext = categoryVM;

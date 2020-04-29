@@ -12,6 +12,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
+using Hangman.Views;
 
 namespace Hangman.ViewModels
 {
@@ -26,7 +29,7 @@ namespace Hangman.ViewModels
         private int delay = 21;
         private DateTime deadline;
         private bool firstCreation = true;
-        private int mistakes = 0;
+        private ObservableCollection<Button> buttons = new ObservableCollection<Button>();
 
         public HomeViewModel()
         {
@@ -35,7 +38,7 @@ namespace Hangman.ViewModels
         public HomeViewModel(User user)
         {
             this.user = user;
-            HangImageSource = images.Hangs[mistakes];
+            HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
             SerializationActions serializationActions = new SerializationActions();
             words = serializationActions.DeserializeWords(Constants.WordsFile);
             PickWord();
@@ -109,11 +112,16 @@ namespace Hangman.ViewModels
             }
         }
 
-        public string Level
+        public int Level
         {
             get
             {
-                return user.GameProperty.LevelProperty.ToString();
+                return user.GameProperty.LevelProperty;
+            }
+            set
+            {
+                user.GameProperty.LevelProperty = value;
+                NotifyPropertyChanged("Level");
             }
         }
 
@@ -184,6 +192,9 @@ namespace Hangman.ViewModels
 
         public void LetterPressed(object buttonClicked)
         {
+            buttons.Add(buttonClicked as Button);
+            (buttonClicked as Button).IsEnabled = false;
+            (buttonClicked as Button).Foreground = Brushes.LimeGreen;
             bool foundLetter = false;
             char letterPressed = (buttonClicked as Button).Content.ToString()[0];
             for (int index = 0; index < user.GameProperty.WordToGuess.Length; ++index)
@@ -199,19 +210,70 @@ namespace Hangman.ViewModels
                     foundLetter = true;
                 }
             }
+            if (!Regex.Match(WordOnDisplay, "＿").Success)
+            {
+                Level = user.GameProperty.LevelProperty + 1;
+                if (user.GameProperty.LevelProperty >= 2)
+                {
+                    ShowMessageBox("You won", "You won a game in category " + user.GameProperty.CategoryProperty.ToString() + ".\nDo you want to start a new game on the same category?", MessageBoxImage.Information);
+                    return;
+                }
+                ReloadGame();
+            }
             if(foundLetter)
             {
                 return;
             }
-            if (mistakes < 5)
+            (buttonClicked as Button).Foreground = Brushes.Red;
+            if (user.GameProperty.MistakesProperty < 5)
             {
-                HangImageSource = images.Hangs[++mistakes];
+                HangImageSource = images.Hangs[++user.GameProperty.MistakesProperty];
+                return;
             }
             else
             {
-                HangImageSource = images.Hangs[++mistakes];
-                MessageBox.Show("You lose!");
-                mistakes = 0;
+                HangImageSource = images.Hangs[++user.GameProperty.MistakesProperty];
+                ShowMessageBox("You lost", "You lost this game on " + user.GameProperty.CategoryProperty.ToString() + ".\nDo you want to start a new game on the same category?", MessageBoxImage.Error);
+            }
+        }
+
+        private void ReloadGame()
+        {
+            foreach(var button in buttons)
+            {
+                button.IsEnabled = true;
+                button.Foreground = Brushes.White;
+            }
+            PickWord();
+            firstCreation = true;
+            CreateWordOnDisplay(user.GameProperty.WordToGuess);
+            delay = 21;
+            user.GameProperty.MistakesProperty = 0;
+            HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
+            deadline = DateTime.Now.AddSeconds(delay);
+            timer.Start();
+            Level = user.GameProperty.LevelProperty;
+        }
+
+        private void ShowMessageBox(string title, string details, MessageBoxImage messageBoxImage)
+        {
+            timer.Stop();
+            MessageBoxResult messageBoxResult = MessageBox.Show(details, title, MessageBoxButton.YesNo, messageBoxImage);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                user.GameProperty.LevelProperty = 1;
+                Level = user.GameProperty.LevelProperty;
+                ReloadGame();
+            }
+            else
+            {
+                user.GameProperty.MistakesProperty = 0;
+                CategoryWindow categoryWindow = new CategoryWindow();
+                CategoryViewModel categoryVM = new CategoryViewModel(user);
+                categoryWindow.DataContext = categoryVM;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = categoryWindow;
+                categoryWindow.Show();
             }
         }
 
@@ -229,28 +291,18 @@ namespace Hangman.ViewModels
 
         private void TimerTick(object sender, EventArgs e)
         {
-            //int secondsRemaining = (deadline - DateTime.Now).Seconds;
-            //NotifyPropertyChanged("Timer");
-            //if (secondsRemaining == 0)
-            //{
-            //    timer.Stop();
-            //    timer.IsEnabled = false;
-            //    MessageBox.Show("Time has expired!");
-            //    delay = 21;
-            //}
+            int secondsRemaining = (deadline - DateTime.Now).Seconds;
+            int minutesRemaining = (deadline - DateTime.Now).Minutes;
+            NotifyPropertyChanged("Timer");
+            if (secondsRemaining == 0 && minutesRemaining == 0)
+            {
+                TimeExpired();
+            }
         }
 
-        //private void TimerStart()
-        //{
-
-        //}
-
-        // PT COMANDA DE EXIT
-        //private void TimerStop()
-        //{
-        //    timer.Stop();
-        //    delay = (deadline - DateTime.Now).Seconds;
-        //    deadline = DateTime.Now.AddSeconds(delay);
-        //}
+        private void TimeExpired()
+        {
+            ShowMessageBox("Time has expired", "Time has expired!\nDo you want to start a new game on the same category?", MessageBoxImage.Warning);
+        }
     }
 }

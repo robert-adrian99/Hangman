@@ -5,7 +5,8 @@
       <Name>Robert</Name>
       <ImageIndex>2</ImageIndex>
       <GameProperty>
-        <LevelProperty>0</LevelProperty>
+        <LevelProperty>1</LevelProperty>
+        <MistakesProperty>0</MistakesProperty>
         <CategoryProperty>All</CategoryProperty>
         <WordOnDisplay />
         <WordToGuess />

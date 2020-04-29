@@ -43,13 +43,16 @@ namespace Hangman.Models
         [XmlAttribute]
         private int level;
         [XmlAttribute]
+        private int mistakes;
+        [XmlAttribute]
         private Category category;
 
         public Game()
         {
             wordOnDisplay = "";
             wordToGuess = "";
-            level = 0;
+            level = 1;
+            mistakes = 0;
             category = Category.All;
         }
 
@@ -62,7 +65,20 @@ namespace Hangman.Models
             set
             {
                 level = value;
-                NotifyPropertyChanged("Level");
+                NotifyPropertyChanged("LevelProperty");
+            }
+        }        
+        
+        public int MistakesProperty
+        {
+            get
+            {
+                return mistakes;
+            }
+            set
+            {
+                mistakes = value;
+                NotifyPropertyChanged("MistakesProperty");
             }
         }
 
@@ -75,7 +91,7 @@ namespace Hangman.Models
             set
             {
                 category = value;
-                NotifyPropertyChanged("Category");
+                NotifyPropertyChanged("CategoryProperty");
             }
         }
 

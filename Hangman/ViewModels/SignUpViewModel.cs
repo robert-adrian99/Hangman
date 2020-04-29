@@ -168,6 +168,11 @@ namespace Hangman.ViewModels
 
         public void SignIn(object param)
         {
+            if (HangmanValidators.CanExecuteAddUser(NameTextBox, users))
+            {
+                MessageBox.Show("This nickname is taken.");
+                return;
+            }
             if (editMode == true)
             {
                 foreach (var user in users.List)

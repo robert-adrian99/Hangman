@@ -200,10 +200,10 @@
     <Resource Include="Assets\Others\ToBeCropped.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="_XmlFiles\Users.xml" />
+    <Resource Include="_XmlFiles\Words.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="_XmlFiles\Words.xml" />
+    <Resource Include="_XmlFiles\Users.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
