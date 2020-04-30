@@ -1,0 +1,29 @@
+﻿<Window x:Class="Hangman.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hangman.Views"
+        mc:Ignorable="d"
+        Title="About" Height="240" Width="400"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/Hangman;component/Assets/Icon.ico">
+    <Window.Background>
+        <ImageBrush ImageSource="/Hangman;component/Assets/BackgroundImage.jpg"/>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="stackPanel">
+            <TextBlock x:Name="programmersNameTextBlock" FontSize="30"></TextBlock>
+            <TextBlock x:Name="numberOfProcessorsTextBlock" FontSize="15"></TextBlock>
+            <TextBlock x:Name="osVersionTextBlock" FontSize="15"></TextBlock>
+            <TextBlock FontSize="15"> 🌍
+            <Hyperlink RequestNavigate="LinkRequestNavigate"  NavigateUri="https://intranet.unitbv.ro/BucurRobertAdrian" Cursor="Hand">https://intranet.unitbv.ro/BucurRobertAdrian</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <Button Grid.Row="1" Content="Ok" FontSize="15" Click="OkButtonClick" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Height="30" Width="100"></Button>
+    </Grid>
+</Window>

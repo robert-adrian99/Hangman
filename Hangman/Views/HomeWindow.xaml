@@ -49,21 +49,20 @@
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="100" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
             <MenuItem Header="File" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
                 <MenuItem Header="New" Background="#2F815D"/>
-                <MenuItem Header="Open" Background="#2F815D"/>
-                <MenuItem Header="Save" Background="#2F815D"/>
-                <MenuItem Header="Statistics" Background="#2F815D"/>
+                <MenuItem Header="Save" Background="#2F815D" Command="{Binding SaveCommand}"/>
+                <MenuItem Header="Statistics" Background="#2F815D" Command="{Binding StatisticsCommand}"/>
                 <MenuItem Header="Exit" Background="#2F815D"/>
             </MenuItem>
             <MenuItem Header="Categories" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
-                <MenuItem Header="All categories" Background="#2F815D" IsCheckable="True"/>
-                <MenuItem Header="Cars" Background="#2F815D" IsCheckable="True"/>
-                <MenuItem Header="Movies" Background="#2F815D" IsCheckable="True"/>
-                <MenuItem Header="States" Background="#2F815D" IsCheckable="True"/>
-                <MenuItem Header="Mountains" Background="#2F815D" IsCheckable="True"/>
-                <MenuItem Header="Rivers" Background="#2F815D" IsCheckable="True"/>
+                <MenuItem x:Name="AllMenuItem" Header="All categories" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=AllMenuItem}" IsChecked="{Binding AllIsSelected}"/>
+                <MenuItem x:Name="CarsMenuItem" Header="Cars" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=CarsMenuItem}" IsChecked="{Binding CarsIsSelected}"/>
+                <MenuItem x:Name="MountainsMenuItem" Header="Mountains" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=MountainsMenuItem}" IsChecked="{Binding MountainsIsSelected}"/>
+                <MenuItem x:Name="MoviesMenuItem" Header="Movies" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=MoviesMenuItem}" IsChecked="{Binding MoviesIsSelected}"/>
+                <MenuItem x:Name="RiversMenuItem" Header="Rivers" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=RiversMenuItem}" IsChecked="{Binding RiversIsSelected}"/>
+                <MenuItem x:Name="StatesMenuItem" Header="States" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=StatesMenuItem}" IsChecked="{Binding StatesIsSelected}"/>
             </MenuItem>
             <MenuItem Header="Help" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
-                <MenuItem Header="About" Background="#2F815D"/>
+                <MenuItem Header="About" Background="#2F815D" Command="{Binding AboutCommand}"/>
             </MenuItem>
         </Menu>
         
@@ -91,7 +90,7 @@
             <Label Grid.Row="1" Grid.Column="2" Content="Level: " FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
             <Label Grid.Row="2" Grid.Column="2" Content="{Binding Level}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
             <Label Grid.Row="1" Grid.Column="1" Content="Category: " FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding Category}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="{Binding CategoryLabel}" FontSize="20" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Center"/>
             <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0, 0, 0, 0">
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="Qbtn" Content="Q" FontFamily="MV Boli" Style="{StaticResource ButtonStyle}" Command="{Binding PressCommand}" CommandParameter="{Binding ElementName=Qbtn}" IsEnabled="{Binding EnabledLetter}"/>

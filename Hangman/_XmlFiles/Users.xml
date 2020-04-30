@@ -1,16 +1,23 @@
 <?xml version="1.0"?>
-<UsersList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<Users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <List>
     <User>
       <Name>Robert</Name>
       <ImageIndex>2</ImageIndex>
-      <GameProperty>
-        <LevelProperty>1</LevelProperty>
-        <MistakesProperty>0</MistakesProperty>
-        <CategoryProperty>All</CategoryProperty>
-        <WordOnDisplay />
-        <WordToGuess />
-      </GameProperty>
+      <StatisticsProperty>
+        <WonGamesAll>0</WonGamesAll>
+        <LostGamesAll>0</LostGamesAll>
+        <WonGamesCars>0</WonGamesCars>
+        <LostGamesCars>0</LostGamesCars>
+        <WonGamesMountains>0</WonGamesMountains>
+        <LostGamesMountains>0</LostGamesMountains>
+        <WonGamesMovies>1</WonGamesMovies>
+        <LostGamesMovies>0</LostGamesMovies>
+        <WonGamesRivers>0</WonGamesRivers>
+        <LostGamesRivers>0</LostGamesRivers>
+        <WonGamesStates>0</WonGamesStates>
+        <LostGamesStates>0</LostGamesStates>
+      </StatisticsProperty>
     </User>
   </List>
-</UsersList>
+</Users>

@@ -62,7 +62,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Images.cs" />
-    <Compile Include="Models\UsersList.cs" />
+    <Compile Include="Models\Statistics.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Models\Words.cs" />
     <Compile Include="Helps\HangmanValidators.cs" />
     <Compile Include="Helps\RelayCommand.cs" />
@@ -75,6 +76,10 @@
     <Compile Include="ViewModels\SignInViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="ViewModels\StartViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CategoryWindow.xaml.cs">
       <DependentUpon>CategoryWindow.xaml</DependentUpon>
     </Compile>
@@ -124,6 +129,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CategoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,9 +210,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="_XmlFiles\Words.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="_XmlFiles\Users.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

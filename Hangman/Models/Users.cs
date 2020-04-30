@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace Hangman.Models
 {
     [Serializable]
-    public class UsersList
+    public class Users
     {
         [XmlArray]
         public ObservableCollection<User> List { get; set; } = new ObservableCollection<User>();

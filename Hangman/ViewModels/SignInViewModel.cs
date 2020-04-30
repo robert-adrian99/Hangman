@@ -16,7 +16,7 @@ namespace Hangman.ViewModels
     {
         private SerializationActions serializationActions = new SerializationActions();
         private Images images = new Images();
-        private UsersList users = new UsersList();
+        private Users users = new Users();
 
         public SignInViewModel()
         {
@@ -25,9 +25,10 @@ namespace Hangman.ViewModels
             ImageSource = users.List.Count > 0 ? new BitmapImage(new Uri(images.Emojis.ElementAt(users.List[0].ImageIndex).UriSource.ToString(), UriKind.Relative)) : new BitmapImage(new Uri(@"/Assets/Emojis/Emoji_1.png", UriKind.Relative));
         }
 
-        public SignInViewModel(UsersList users)
+        public SignInViewModel(Users users)
         {
             this.users = users;
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
             ImageSource = users.List.Count > 0 ? new BitmapImage(new Uri(images.Emojis.ElementAt(users.List[0].ImageIndex).UriSource.ToString(), UriKind.Relative)) : new BitmapImage(new Uri(@"/Assets/Emojis/Emoji_1.png", UriKind.Relative));
         }
 

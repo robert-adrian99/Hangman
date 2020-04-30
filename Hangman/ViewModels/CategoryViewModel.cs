@@ -59,6 +59,10 @@ namespace Hangman.ViewModels
         public void CategorySelected(Category category)
         {
             user.GameProperty.CategoryProperty = category;
+            user.GameProperty.LevelProperty = 1;
+            user.GameProperty.MistakesProperty = 0;
+            user.GameProperty.WordOnDisplay = "";
+            user.GameProperty.WordToGuess = "";
             SerializationActions serializationActions = new SerializationActions();
             Words words = serializationActions.DeserializeWords(Constants.WordsFile);
             HomeWindow window = new HomeWindow();

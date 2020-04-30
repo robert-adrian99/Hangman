@@ -23,7 +23,7 @@ namespace Hangman.Helps
         {
             return images.Emojis.IndexOf(image) > 0;
         }
-        public static bool CanExecuteAddUser(string name, UsersList users)
+        public static bool CanExecuteAddUser(string name, Users users)
         {
             foreach (var user in users.List)
             {

@@ -24,28 +24,37 @@ namespace Hangman.ViewModels
         // H E ＿ L ＿
         private User user;
         private Words words;
+        private Users users;
         private Images images = new Images();
         private DispatcherTimer timer = new DispatcherTimer();
         private int delay = 21;
         private DateTime deadline;
         private bool firstCreation = true;
         private ObservableCollection<Button> buttons = new ObservableCollection<Button>();
+        private SerializationActions serializationActions = new SerializationActions();
 
         public HomeViewModel()
         {
 
         }
-        public HomeViewModel(User user)
+        public HomeViewModel(User user, bool resumeGame = false)
         {
-            this.user = user;
-            HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
-            SerializationActions serializationActions = new SerializationActions();
+            users = serializationActions.DeserializeUsers(Constants.UsersFile);
             words = serializationActions.DeserializeWords(Constants.WordsFile);
-            PickWord();
-            CreateWordOnDisplay(user.GameProperty.WordToGuess);
+            this.user = user;
+            if (!resumeGame)
+            {
+                PickWord();
+                CreateWordOnDisplay(user.GameProperty.WordToGuess);
+                delay = 21;
+            }
+            else
+            {
+                delay = user.GameProperty.SecondsRemaining;
+            }
+            HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
             timer.Tick += new EventHandler(TimerTick);
-            deadline = DateTime.Now.AddSeconds(delay);
-            timer.Start();
+            StartTimer(delay);
         }
 
         private void PickWord()
@@ -54,6 +63,7 @@ namespace Hangman.ViewModels
             switch (user.GameProperty.CategoryProperty)
             {
                 case Models.Category.All:
+                    AllIsSelected = true;
                     int randomCategory = random.Next(Constants.numberOfCategories);
                     switch (randomCategory)
                     {
@@ -77,18 +87,23 @@ namespace Hangman.ViewModels
                     }
                     break;
                 case Models.Category.Cars:
+                    CarsIsSelected = true;
                     user.GameProperty.WordToGuess = words.Cars[random.Next(words.Cars.Count)];
                     break;
                 case Models.Category.Movies:
+                    MoviesIsSelected = true;
                     user.GameProperty.WordToGuess = words.Movies[random.Next(words.Movies.Count)];
                     break;
                 case Models.Category.States:
+                    StatesIsSelected = true;
                     user.GameProperty.WordToGuess = words.States[random.Next(words.States.Count)];
                     break;
                 case Models.Category.Mountains:
+                    MountainsIsSelected = true;
                     user.GameProperty.WordToGuess = words.Mountains[random.Next(words.Mountains.Count)];
                     break;
                 case Models.Category.Rivers:
+                    RiversIsSelected = true;
                     user.GameProperty.WordToGuess = words.Rivers[random.Next(words.Rivers.Count)];
                     break;
                 default:
@@ -104,11 +119,16 @@ namespace Hangman.ViewModels
             }
         }
 
-        public string Category
+        public Category CategoryLabel
         {
             get
             {
-                return user.GameProperty.CategoryProperty.ToString();
+                return user.GameProperty.CategoryProperty;
+            }
+            set
+            {
+                user.GameProperty.CategoryProperty = value;
+                NotifyPropertyChanged("CategoryLabel");
             }
         }
 
@@ -166,6 +186,7 @@ namespace Hangman.ViewModels
             if (firstCreation)
             {
                 user.GameProperty.WordOnDisplay = new Regex(@"\S").Replace(word, "＿ ");
+
             }
             else
             {
@@ -213,8 +234,39 @@ namespace Hangman.ViewModels
             if (!Regex.Match(WordOnDisplay, "＿").Success)
             {
                 Level = user.GameProperty.LevelProperty + 1;
-                if (user.GameProperty.LevelProperty >= 2)
+                if (user.GameProperty.LevelProperty >= 5)
                 {
+                    switch (user.GameProperty.CategoryProperty)
+                    {
+                        case Category.All:
+                            user.StatisticsProperty.WonGamesAll += 1;
+                            break;
+                        case Category.Cars:
+                            user.StatisticsProperty.WonGamesCars += 1;
+                            break;
+                        case Category.Movies:
+                            user.StatisticsProperty.WonGamesMovies += 1;
+                            break;
+                        case Category.States:
+                            user.StatisticsProperty.WonGamesStates += 1;
+                            break;
+                        case Category.Mountains:
+                            user.StatisticsProperty.WonGamesMountains += 1;
+                            break;
+                        case Category.Rivers:
+                            user.StatisticsProperty.WonGamesRivers += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                    foreach(var userInList in users.List)
+                    {
+                        if (userInList.Name == user.Name)
+                        {
+                            userInList.StatisticsProperty = user.StatisticsProperty;
+                        }
+                    }
+                    serializationActions.SerializeUsers(Constants.UsersFile, users);
                     ShowMessageBox("You won", "You won a game in category " + user.GameProperty.CategoryProperty.ToString() + ".\nDo you want to start a new game on the same category?", MessageBoxImage.Information);
                     return;
                 }
@@ -232,6 +284,36 @@ namespace Hangman.ViewModels
             }
             else
             {
+                switch (user.GameProperty.CategoryProperty)
+                {
+                    case Category.All:
+                        user.StatisticsProperty.WonGamesAll += 1;
+                        break;
+                    case Category.Cars:
+                        user.StatisticsProperty.WonGamesCars += 1;
+                        break;
+                    case Category.Movies:
+                        user.StatisticsProperty.WonGamesMovies += 1;
+                        break;
+                    case Category.States:
+                        user.StatisticsProperty.WonGamesStates += 1;
+                        break;
+                    case Category.Mountains:
+                        user.StatisticsProperty.WonGamesMountains += 1;
+                        break;
+                    case Category.Rivers:
+                        user.StatisticsProperty.WonGamesRivers += 1;
+                        break;
+                    default:
+                        break;
+                }
+                foreach (var userInList in users.List)
+                {
+                    if (userInList.Name == user.Name)
+                    {
+                        userInList.StatisticsProperty = user.StatisticsProperty;
+                    }
+                }
                 HangImageSource = images.Hangs[++user.GameProperty.MistakesProperty];
                 ShowMessageBox("You lost", "You lost this game on " + user.GameProperty.CategoryProperty.ToString() + ".\nDo you want to start a new game on the same category?", MessageBoxImage.Error);
             }
@@ -250,24 +332,23 @@ namespace Hangman.ViewModels
             delay = 21;
             user.GameProperty.MistakesProperty = 0;
             HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
-            deadline = DateTime.Now.AddSeconds(delay);
-            timer.Start();
+            StartTimer(delay);
             Level = user.GameProperty.LevelProperty;
         }
 
         private void ShowMessageBox(string title, string details, MessageBoxImage messageBoxImage)
         {
-            timer.Stop();
+            StopTimer();
             MessageBoxResult messageBoxResult = MessageBox.Show(details, title, MessageBoxButton.YesNo, messageBoxImage);
             if (messageBoxResult == MessageBoxResult.Yes)
             {
-                user.GameProperty.LevelProperty = 1;
-                Level = user.GameProperty.LevelProperty;
+                Level = user.GameProperty.LevelProperty = 1;
                 ReloadGame();
             }
             else
             {
                 user.GameProperty.MistakesProperty = 0;
+                user.GameProperty.LevelProperty = 1;
                 CategoryWindow categoryWindow = new CategoryWindow();
                 CategoryViewModel categoryVM = new CategoryViewModel(user);
                 categoryWindow.DataContext = categoryVM;
@@ -302,7 +383,325 @@ namespace Hangman.ViewModels
 
         private void TimeExpired()
         {
+            switch (user.GameProperty.CategoryProperty)
+            {
+                case Category.All:
+                    user.StatisticsProperty.LostGamesAll += 1;
+                    break;                  
+                case Category.Cars:         
+                    user.StatisticsProperty.LostGamesCars += 1;
+                    break;                  
+                case Category.Movies:       
+                    user.StatisticsProperty.LostGamesMovies += 1;
+                    break;                  
+                case Category.States:       
+                    user.StatisticsProperty.LostGamesStates += 1;
+                    break;                  
+                case Category.Mountains:    
+                    user.StatisticsProperty.LostGamesMountains += 1;
+                    break;                  
+                case Category.Rivers:       
+                    user.StatisticsProperty.LostGamesRivers += 1;
+                    break;
+                default:
+                    break;
+            }
+            foreach (var userInList in users.List)
+            {
+                if (userInList.Name == user.Name)
+                {
+                    userInList.StatisticsProperty = user.StatisticsProperty;
+                }
+            }
             ShowMessageBox("Time has expired", "Time has expired!\nDo you want to start a new game on the same category?", MessageBoxImage.Warning);
+        }
+
+        private ICommand saveCommand;
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (saveCommand == null)
+                {
+                    saveCommand = new RelayCommand(SaveGame);
+                }
+                return saveCommand;
+            }
+        }
+
+        public void SaveGame(object param)
+        {
+            StopTimer();
+            user.GameProperty.SecondsRemaining = (deadline - DateTime.Now).Seconds;
+            users = serializationActions.DeserializeUsers(Constants.UsersFile);
+            foreach (var userInList in users.List)
+            {
+                if (user.Name == userInList.Name)
+                {
+                    users.List.Remove(userInList);
+                    break;
+                }
+            }
+            users.List.Add(user);
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
+            SignInWindow signInWindow = new SignInWindow();
+            SignInViewModel signInVM = new SignInViewModel();
+            signInWindow.DataContext = signInVM;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = signInWindow;
+            signInWindow.Show();
+        }
+
+        private ICommand aboutCommand;
+        public ICommand AboutCommand
+        {
+            get
+            {
+                if (aboutCommand == null)
+                {
+                    aboutCommand = new RelayCommand(About);
+                }
+                return aboutCommand;
+            }
+        }
+
+        public void About(object param)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.Show();
+        }
+
+        private ICommand selectCategoryCommand;
+        public ICommand SelectCategoryCommand
+        {
+            get
+            {
+                if (selectCategoryCommand == null)
+                {
+                    selectCategoryCommand = new RelayCommand(SelectCategory);
+                }
+                return selectCategoryCommand;
+            }
+        }
+
+        private ICommand statisticsCommand;
+        public ICommand StatisticsCommand
+        {
+            get
+            {
+                if (statisticsCommand == null)
+                {
+                    statisticsCommand = new RelayCommand(StatisticsPressed);
+                }
+                return statisticsCommand;
+            }
+        }
+
+        public void StatisticsPressed(object param)
+        {
+            int seconds = (deadline - DateTime.Now).Seconds;
+            StopTimer();
+            StatisticsWindow statisticsWindow = new StatisticsWindow();
+            StatisticsViewModel statisticsVM = new StatisticsViewModel(user);
+            statisticsWindow.DataContext = statisticsVM;
+            //statisticsWindow.Name = "statisticsWindow";
+            statisticsWindow.ShowDialog();
+            StartTimer(seconds);
+        }
+
+        public void ResetButtons()
+        {
+            foreach(var button in buttons)
+            {
+                button.Foreground = Brushes.White;
+                button.IsEnabled = true;
+            }
+        }
+
+        private ObservableCollection<MenuItem> menuItems = new ObservableCollection<MenuItem>();
+        public void SelectCategory(object menuItem)
+        {
+            int seconds = (deadline - DateTime.Now).Seconds;
+            StopTimer();
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to change the category?\nIf you change it you will lose this game!", "Change category?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                switch ((menuItem as MenuItem).Header)
+                {
+                    case "All categories":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.All;
+                        AllIsSelected = true;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = false;
+                        StatesIsSelected = false;
+                        break;
+                    case "Cars":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Cars;
+                        AllIsSelected = false;
+                        CarsIsSelected = true;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = false;
+                        StatesIsSelected = false;
+                        break;
+                    case "Mountains":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = true;
+                        RiversIsSelected = false;
+                        StatesIsSelected = false;
+                        break;
+                    case "Movies":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Movies;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = true;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = false;
+                        StatesIsSelected = false;
+                        break;
+                    case "Rivers":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = true;
+                        StatesIsSelected = false;
+                        break;
+                    case "States":
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.States;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = false;
+                        StatesIsSelected = true;
+                        break;
+                    default:
+                        break;
+                }
+                user.GameProperty.LevelProperty = 1;
+                user.GameProperty.MistakesProperty = 0;
+                ResetButtons();
+                HomeViewModel homeViewModel = new HomeViewModel(user);
+                App.Current.MainWindow.DataContext = homeViewModel;
+            }
+            else
+            {
+                StartTimer(seconds);
+            }
+        }
+
+        private bool allIsSelected;
+        public bool AllIsSelected
+        {
+            get
+            {
+                return allIsSelected;
+            }
+            set
+            {
+                allIsSelected = value;
+                NotifyPropertyChanged("AllIsSelected");
+            }
+        }
+
+        private bool carsIsSelected;
+        public bool CarsIsSelected
+        {
+            get
+            {
+                return carsIsSelected;
+            }
+            set
+            {
+                carsIsSelected = value;
+                NotifyPropertyChanged("CarsIsSelected");
+            }
+        }
+
+        private bool mountainsIsSelected;
+        public bool MountainsIsSelected
+        {
+            get
+            {
+                return mountainsIsSelected;
+            }
+            set
+            {
+                mountainsIsSelected = value;
+                NotifyPropertyChanged("MountainsIsSelected");
+            }
+        }
+
+        private bool moviesIsSelected;
+        public bool MoviesIsSelected
+        {
+            get
+            {
+                return moviesIsSelected;
+            }
+            set
+            {
+                moviesIsSelected = value;
+                NotifyPropertyChanged("MoviesIsSelected");
+            }
+        }
+
+        private bool riversIsSelected;
+        public bool RiversIsSelected
+        {
+            get
+            {
+                return riversIsSelected;
+            }
+            set
+            {
+                riversIsSelected = value;
+                NotifyPropertyChanged("RiversIsSelected");
+            }
+        }
+
+        private bool statesIsSelected;
+        public bool StatesIsSelected
+        {
+            get
+            {
+                return statesIsSelected;
+            }
+            set
+            {
+                statesIsSelected = value;
+                NotifyPropertyChanged("StatesIsSelected");
+            }
+        }
+
+        public string DispatcherTimer
+        {
+            get
+            {
+                if ((deadline - DateTime.Now).Seconds < 10)
+                {
+                    return (deadline - DateTime.Now).Minutes.ToString() + ":0" + (deadline - DateTime.Now).Seconds.ToString();
+                }
+                return (deadline - DateTime.Now).Minutes.ToString() + ":" + (deadline - DateTime.Now).Seconds.ToString();
+            }
+        }
+        private void StartTimer(int seconds)
+        {
+            deadline = DateTime.Now.AddSeconds(seconds);
+            timer.Start();
+        }
+        private void StopTimer()
+        {
+            timer.Stop();
+            delay = (deadline - DateTime.Now).Seconds;
+            deadline = DateTime.Now.AddSeconds(delay);
         }
     }
 }

@@ -17,10 +17,11 @@ namespace Hangman.ViewModels
     public class SignUpViewModel : NotifyViewModel
     {
         private SerializationActions serializationActions = new SerializationActions();
-        private UsersList users = new UsersList();
+        private Users users = new Users();
         private Images images = new Images();
         private bool editMode = false;
         private string userOldName = "";
+        //private User user;
 
         public SignUpViewModel()
         {
@@ -39,17 +40,18 @@ namespace Hangman.ViewModels
             this.users = serializationActions.DeserializeUsers(Constants.UsersFile);
         }
 
-        public SignUpViewModel(User user, UsersList users)
+        public SignUpViewModel(User user, Users users)
         {
             ImageSource = new BitmapImage(new Uri(images.Emojis[user.ImageIndex].UriSource.ToString(), UriKind.Relative));
             NameTextBox = user.Name;
             editMode = true;
             userOldName = user.Name;
+            //this.user = user;
             this.users = users;
             CanExecuteCommandAddUser = false;
         }
 
-        public SignUpViewModel(UsersList users)
+        public SignUpViewModel(Users users)
         {
             ImageSource = images.Emojis.ElementAt(0);
             this.users = users;
@@ -160,7 +162,7 @@ namespace Hangman.ViewModels
             {
                 if (signInCommand == null)
                 {
-                    signInCommand = new RelayCommand(SignIn, param => CanExecuteCommandAddUser);
+                    signInCommand = new RelayCommand(SignIn);
                 }
                 return signInCommand;
             }
@@ -179,13 +181,17 @@ namespace Hangman.ViewModels
                 {
                     if (user.Name == userOldName)
                     {
-                        users.List.Remove(user);
+                        user.Name = NameTextBox;
+                        user.ImageIndex = images.Emojis.IndexOf(ImageSource);
                         break;
                     }
                 }
             }
-            int imageIndex = images.Emojis.IndexOf(ImageSource);
-            users.List.Add(new User(NameTextBox, imageIndex));
+            else
+            {
+                User user = new User(NameTextBox, images.Emojis.IndexOf(ImageSource));
+                users.List.Add(user);
+            }
             SignInWindow window = new SignInWindow();
             SignInViewModel signInVM = new SignInViewModel(users);
             window.DataContext = signInVM;
@@ -216,6 +222,7 @@ namespace Hangman.ViewModels
             }
             int imageIndex = images.Emojis.IndexOf(ImageSource);
             User user = new User(NameTextBox, imageIndex);
+            user.GameProperty = new Game();
             users.List.Add(new User(NameTextBox, imageIndex));
             serializationActions.SerializeUsers(Constants.UsersFile, users);
             CategoryWindow categoryWindow = new CategoryWindow();

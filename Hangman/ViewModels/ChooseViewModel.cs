@@ -15,21 +15,15 @@ namespace Hangman.ViewModels
     {
         private SerializationActions serializationActions = new SerializationActions();
         private Images images = new Images();
-        private UsersList users = new UsersList();
+        //private UsersList users = new UsersList();
         private User user;
 
         public ChooseViewModel(User user)
         {
             this.user = user;
-            foreach (var userFromList in users.List)
+            if (user.GameProperty != null)
             {
-                if (userFromList.Name == userFromList.Name)
-                {
-                    if (user.GameProperty != null)
-                    {
-                        CanExecuteCommand = true;
-                    }
-                }
+                CanExecuteCommand = true;
             }
         }
 
@@ -64,7 +58,7 @@ namespace Hangman.ViewModels
 
         public void NewGame(object param)
         {
-            user.GameProperty.LevelProperty = 1;
+            user.GameProperty = new Game();
             CategoryWindow window = new CategoryWindow();
             CategoryViewModel categoryVM = new CategoryViewModel(user);
             window.DataContext = categoryVM;
@@ -91,7 +85,7 @@ namespace Hangman.ViewModels
         public void ResumeGame(object param)
         {
             HomeWindow window = new HomeWindow();
-            HomeViewModel homeVM = new HomeViewModel(user);
+            HomeViewModel homeVM = new HomeViewModel(user, true);
             window.DataContext = homeVM;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = window;

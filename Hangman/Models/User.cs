@@ -31,17 +31,18 @@ namespace Hangman.Models
         private int imageIndex;
         [XmlAttribute]
         private Game game;
+        [XmlAttribute]
+        private Statistics statistics = new Statistics();
 
         public User()
         {
-            GameProperty = new Game();
+
         }
 
         public User(string name, int imageIndex)
         {
             Name = name;
             ImageIndex = imageIndex;
-            GameProperty = new Game();
         }
         
         public string Name
@@ -80,6 +81,19 @@ namespace Hangman.Models
             {
                 game = value;
                 NotifyPropertyChanged("GameProperty");
+            }
+        }
+
+        public Statistics StatisticsProperty
+        {
+            get
+            {
+                return statistics;
+            }
+            set
+            {
+                statistics = value;
+                NotifyPropertyChanged("StatisticsProperty");
             }
         }
 
