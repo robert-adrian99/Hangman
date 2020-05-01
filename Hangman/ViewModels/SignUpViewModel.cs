@@ -42,11 +42,11 @@ namespace Hangman.ViewModels
 
         public SignUpViewModel(User user, Users users)
         {
-            ImageSource = new BitmapImage(new Uri(images.Emojis[user.ImageIndex].UriSource.ToString(), UriKind.Relative));
+            ImageSource = images.Emojis[user.ImageIndex];
             NameTextBox = user.Name;
             editMode = true;
             userOldName = user.Name;
-            //this.user = user;
+            //CanExecuteCommandSignIn = false;
             this.users = users;
             CanExecuteCommandAddUser = false;
         }
@@ -72,6 +72,7 @@ namespace Hangman.ViewModels
                 {
                     CanExecuteCommandAddUser = HangmanValidators.CanExecutePlay(NameTextBox);
                 }
+                CanExecuteCommandSignIn = HangmanValidators.CanExecutePlay(NameTextBox);
                 NotifyPropertyChanged("NameTextBox");
             }
         }
@@ -86,6 +87,10 @@ namespace Hangman.ViewModels
             set
             {
                 imageSource = value;
+                if (editMode)
+                {
+                    CanExecuteCommandSignIn = HangmanValidators.CanExecutePlay(NameTextBox);
+                }
                 CanExecuteCommandNext = HangmanValidators.CanExecuteNext(imageSource, images);
                 CanExecuteCommandPrev = HangmanValidators.CanExecutePrev(imageSource, images);
                 NotifyPropertyChanged("ImageSource");
@@ -110,6 +115,7 @@ namespace Hangman.ViewModels
         public bool CanExecuteCommandAddUser { get; set; } = false;
         public bool CanExecuteCommandNext { get; set; } = false;
         public bool CanExecuteCommandPrev { get; set; } = false;
+        public bool CanExecuteCommandSignIn { get; set; } = false;
 
         private ICommand nextCommand;
         public ICommand NextCommand
@@ -155,6 +161,7 @@ namespace Hangman.ViewModels
             }
         }
 
+
         private ICommand signInCommand;
         public ICommand SignInCommand
         {
@@ -162,7 +169,7 @@ namespace Hangman.ViewModels
             {
                 if (signInCommand == null)
                 {
-                    signInCommand = new RelayCommand(SignIn);
+                    signInCommand = new RelayCommand(SignIn, param => CanExecuteCommandSignIn);
                 }
                 return signInCommand;
             }
@@ -170,7 +177,7 @@ namespace Hangman.ViewModels
 
         public void SignIn(object param)
         {
-            if (HangmanValidators.CanExecuteAddUser(NameTextBox, users))
+            if ((NameTextBox != userOldName) && (!HangmanValidators.CanAddUser(NameTextBox, users)))
             {
                 MessageBox.Show("This nickname is taken.");
                 return;
@@ -190,6 +197,7 @@ namespace Hangman.ViewModels
             else
             {
                 User user = new User(NameTextBox, images.Emojis.IndexOf(ImageSource));
+                user.GameProperty = new Game();
                 users.List.Add(user);
             }
             SignInWindow window = new SignInWindow();
@@ -215,7 +223,7 @@ namespace Hangman.ViewModels
 
         public void AddUserAndPlay(object param)
         {
-            if (HangmanValidators.CanExecuteAddUser(NameTextBox, users))
+            if (!HangmanValidators.CanAddUser(NameTextBox, users))
             {
                 MessageBox.Show("This nickname is taken.");
                 return;

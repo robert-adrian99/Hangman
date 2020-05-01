@@ -23,16 +23,16 @@ namespace Hangman.Helps
         {
             return images.Emojis.IndexOf(image) > 0;
         }
-        public static bool CanExecuteAddUser(string name, Users users)
+        public static bool CanAddUser(string name, Users users)
         {
             foreach (var user in users.List)
             {
                 if (user.Name == name)
                 {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
     }
 }

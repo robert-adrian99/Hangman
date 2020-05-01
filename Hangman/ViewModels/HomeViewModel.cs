@@ -27,9 +27,10 @@ namespace Hangman.ViewModels
         private Users users;
         private Images images = new Images();
         private DispatcherTimer timer = new DispatcherTimer();
-        private int delay = 21;
+        private int delay = 61;
         private DateTime deadline;
         private bool firstCreation = true;
+        private bool resumeGame = false;
         private ObservableCollection<Button> buttons = new ObservableCollection<Button>();
         private SerializationActions serializationActions = new SerializationActions();
 
@@ -41,16 +42,52 @@ namespace Hangman.ViewModels
         {
             users = serializationActions.DeserializeUsers(Constants.UsersFile);
             words = serializationActions.DeserializeWords(Constants.WordsFile);
+            foreach (var userInList in users.List)
+            {
+                if (userInList.Name == user.Name)
+                {
+                    users.List.Remove(userInList);
+                    users.List.Add(user);
+                    break;
+                }
+            }
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
+            users = serializationActions.DeserializeUsers(Constants.UsersFile);
             this.user = user;
             if (!resumeGame)
             {
                 PickWord();
                 CreateWordOnDisplay(user.GameProperty.WordToGuess);
-                delay = 21;
+                delay = 61;
             }
             else
             {
+                switch (user.GameProperty.CategoryProperty)
+                {
+                    case Models.Category.All:
+                        AllIsSelected = true;
+                        break;
+                    case Models.Category.Cars:
+                        CarsIsSelected = true;
+                        break;
+                    case Models.Category.Movies:
+                        MoviesIsSelected = true;
+                        break;
+                    case Models.Category.States:
+                        StatesIsSelected = true;
+                        break;
+                    case Models.Category.Mountains:
+                        MountainsIsSelected = true;
+                        break;
+                    case Models.Category.Rivers:
+                        RiversIsSelected = true;
+                        break;
+                    default:
+                        break;
+                }
                 delay = user.GameProperty.SecondsRemaining;
+                firstCreation = false;
+                this.resumeGame = resumeGame;
             }
             HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
             timer.Tick += new EventHandler(TimerTick);
@@ -287,22 +324,22 @@ namespace Hangman.ViewModels
                 switch (user.GameProperty.CategoryProperty)
                 {
                     case Category.All:
-                        user.StatisticsProperty.WonGamesAll += 1;
+                        user.StatisticsProperty.LostGamesAll += 1;
                         break;
                     case Category.Cars:
-                        user.StatisticsProperty.WonGamesCars += 1;
+                        user.StatisticsProperty.LostGamesCars += 1;
                         break;
                     case Category.Movies:
-                        user.StatisticsProperty.WonGamesMovies += 1;
+                        user.StatisticsProperty.LostGamesMovies += 1;
                         break;
                     case Category.States:
-                        user.StatisticsProperty.WonGamesStates += 1;
+                        user.StatisticsProperty.LostGamesStates += 1;
                         break;
                     case Category.Mountains:
-                        user.StatisticsProperty.WonGamesMountains += 1;
+                        user.StatisticsProperty.LostGamesMountains += 1;
                         break;
                     case Category.Rivers:
-                        user.StatisticsProperty.WonGamesRivers += 1;
+                        user.StatisticsProperty.LostGamesRivers += 1;
                         break;
                     default:
                         break;
@@ -330,7 +367,7 @@ namespace Hangman.ViewModels
             PickWord();
             firstCreation = true;
             CreateWordOnDisplay(user.GameProperty.WordToGuess);
-            delay = 21;
+            delay = 61;
             user.GameProperty.MistakesProperty = 0;
             HangImageSource = images.Hangs[user.GameProperty.MistakesProperty];
             StartTimer(delay);
@@ -412,6 +449,10 @@ namespace Hangman.ViewModels
                 if (userInList.Name == user.Name)
                 {
                     userInList.StatisticsProperty = user.StatisticsProperty;
+                    if (resumeGame)
+                    {
+                        userInList.GameProperty = new Game();
+                    }
                 }
             }
             serializationActions.SerializeUsers(Constants.UsersFile, users);
@@ -444,6 +485,7 @@ namespace Hangman.ViewModels
                     break;
                 }
             }
+            user.GameProperty.SavedGame = true;
             users.List.Add(user);
             serializationActions.SerializeUsers(Constants.UsersFile, users);
             SignInWindow signInWindow = new SignInWindow();
@@ -476,6 +518,8 @@ namespace Hangman.ViewModels
             StartTimer(seconds);
         }
 
+        private Category oldCategory = Category.None;
+
         private ICommand selectCategoryCommand;
         public ICommand SelectCategoryCommand
         {
@@ -483,6 +527,30 @@ namespace Hangman.ViewModels
             {
                 if (selectCategoryCommand == null)
                 {
+                    if (AllIsSelected)
+                    {
+                        oldCategory = Category.All;
+                    }
+                    if (CarsIsSelected)
+                    {
+                        oldCategory = Category.Cars;
+                    }
+                    if (MountainsIsSelected)
+                    {
+                        oldCategory = Category.Mountains;
+                    }
+                    if (MoviesIsSelected)
+                    {
+                        oldCategory = Category.Movies;
+                    }
+                    if (RiversIsSelected)
+                    {
+                        oldCategory = Category.Rivers;
+                    }
+                    if (StatesIsSelected)
+                    {
+                        oldCategory = Category.States;
+                    }
                     selectCategoryCommand = new RelayCommand(SelectCategory);
                 }
                 return selectCategoryCommand;
@@ -563,6 +631,10 @@ namespace Hangman.ViewModels
                     if (userInList.Name == user.Name)
                     {
                         userInList.StatisticsProperty = user.StatisticsProperty;
+                        if (resumeGame)
+                        {
+                            userInList.GameProperty = new Game();
+                        }
                     }
                 }
                 serializationActions.SerializeUsers(Constants.UsersFile, users);
@@ -594,41 +666,45 @@ namespace Hangman.ViewModels
 
         public void ExitPressed(object param)
         {
-            int seconds = (deadline - DateTime.Now).Seconds;
+            //int seconds = (deadline - DateTime.Now).Seconds;
             StopTimer();
-            MessageBoxResult messageBoxResult = MessageBox.Show("If you exit this game will count as lost.\nAre you sure you want to exit?", "Exit game", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (messageBoxResult == MessageBoxResult.Yes)
-            {
+            //MessageBoxResult messageBoxResult = MessageBox.Show("If you exit this game will count as lost.\nAre you sure you want to exit?", "Exit game", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            //if (messageBoxResult == MessageBoxResult.Yes)
+            //{
                 user.GameProperty.MistakesProperty = 0;
                 user.GameProperty.LevelProperty = 1;
-                switch (user.GameProperty.CategoryProperty)
-                {
-                    case Category.All:
-                        user.StatisticsProperty.LostGamesAll += 1;
-                        break;
-                    case Category.Cars:
-                        user.StatisticsProperty.LostGamesCars += 1;
-                        break;
-                    case Category.Movies:
-                        user.StatisticsProperty.LostGamesMovies += 1;
-                        break;
-                    case Category.States:
-                        user.StatisticsProperty.LostGamesStates += 1;
-                        break;
-                    case Category.Mountains:
-                        user.StatisticsProperty.LostGamesMountains += 1;
-                        break;
-                    case Category.Rivers:
-                        user.StatisticsProperty.LostGamesRivers += 1;
-                        break;
-                    default:
-                        break;
-                }
+                //switch (user.GameProperty.CategoryProperty)
+                //{
+                //    case Category.All:
+                //        user.StatisticsProperty.LostGamesAll += 1;
+                //        break;
+                //    case Category.Cars:
+                //        user.StatisticsProperty.LostGamesCars += 1;
+                //        break;
+                //    case Category.Movies:
+                //        user.StatisticsProperty.LostGamesMovies += 1;
+                //        break;
+                //    case Category.States:
+                //        user.StatisticsProperty.LostGamesStates += 1;
+                //        break;
+                //    case Category.Mountains:
+                //        user.StatisticsProperty.LostGamesMountains += 1;
+                //        break;
+                //    case Category.Rivers:
+                //        user.StatisticsProperty.LostGamesRivers += 1;
+                //        break;
+                //    default:
+                //        break;
+                //}
                 foreach (var userInList in users.List)
                 {
                     if (userInList.Name == user.Name)
                     {
                         userInList.StatisticsProperty = user.StatisticsProperty;
+                        if (resumeGame)
+                        {
+                            userInList.GameProperty = new Game();
+                        }
                     }
                 }
                 serializationActions.SerializeUsers(Constants.UsersFile, users);
@@ -638,11 +714,11 @@ namespace Hangman.ViewModels
                 App.Current.MainWindow.Close();
                 App.Current.MainWindow = signInWindow;
                 signInWindow.Show();
-            }
-            else
-            {
-                StartTimer(seconds);
-            }
+            //}
+            //else
+            //{
+                //StartTimer(seconds);
+            //}
         }
 
         public void ResetButtons()
@@ -657,14 +733,189 @@ namespace Hangman.ViewModels
         private ObservableCollection<MenuItem> menuItems = new ObservableCollection<MenuItem>();
         public void SelectCategory(object menuItem)
         {
-            int seconds = (deadline - DateTime.Now).Seconds;
-            StopTimer();
-            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to change the category?\nIf you change it you will lose this game!", "Change category?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            if ((menuItem as MenuItem).Header.ToString() != CategoryLabel.ToString())
             {
-                switch ((menuItem as MenuItem).Header)
+                int seconds = (deadline - DateTime.Now).Seconds;
+                StopTimer();
+                MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to change the category?\nIf you change it you will lose this game!", "Change category?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
                 {
-                    case "All categories":
+                    switch (oldCategory)
+                    {
+                        case Category.All:
+                            user.StatisticsProperty.LostGamesAll += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.All;
+                            break;
+                        case Category.Cars:
+                            user.StatisticsProperty.LostGamesCars += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Cars;
+                            break;
+                        case Category.Movies:
+                            user.StatisticsProperty.LostGamesMovies += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Movies;
+                            break;
+                        case Category.States:
+                            user.StatisticsProperty.LostGamesStates += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.States;
+                            break;
+                        case Category.Mountains:
+                            user.StatisticsProperty.LostGamesMountains += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
+                            break;
+                        case Category.Rivers:
+                            user.StatisticsProperty.LostGamesRivers += 1;
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
+                            break;
+                        default:
+                            break;
+                    }
+                    switch ((menuItem as MenuItem).Header)
+                    {
+                        case "All":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.All;
+                            AllIsSelected = true;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case "Cars":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Cars;
+                            AllIsSelected = false;
+                            CarsIsSelected = true;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case "Mountains":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = true;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case "Movies":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Movies;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = true;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case "Rivers":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = true;
+                            StatesIsSelected = false;
+                            break;
+                        case "States":
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.States;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    user.GameProperty.LevelProperty = 1;
+                    user.GameProperty.MistakesProperty = 0;
+                    foreach (var userInList in users.List)
+                    {
+                        if (userInList.Name == user.Name)
+                        {
+                            userInList.StatisticsProperty = user.StatisticsProperty;
+                            if (resumeGame)
+                            {
+                                userInList.GameProperty = new Game();
+                                userInList.GameProperty.CategoryProperty = user.GameProperty.CategoryProperty;
+                            }
+                        }
+                    }
+                    serializationActions.SerializeUsers(Constants.UsersFile, users);
+                    ResetButtons();
+                    HomeViewModel homeViewModel = new HomeViewModel(user);
+                    App.Current.MainWindow.DataContext = homeViewModel;
+                }
+                else
+                {
+                    switch (oldCategory)
+                    {
+                        case Category.All:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.All;
+                            AllIsSelected = true;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case Category.Cars:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Cars;
+                            AllIsSelected = false;
+                            CarsIsSelected = true;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case Category.Movies:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Movies;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = true;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case Category.States:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.States;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = false;
+                            StatesIsSelected = true;
+                            break;
+                        case Category.Mountains:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = true;
+                            RiversIsSelected = false;
+                            StatesIsSelected = false;
+                            break;
+                        case Category.Rivers:
+                            CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
+                            AllIsSelected = false;
+                            CarsIsSelected = false;
+                            MoviesIsSelected = false;
+                            MountainsIsSelected = false;
+                            RiversIsSelected = true;
+                            StatesIsSelected = false;
+                            break;
+                        default:
+                            break;
+                    }
+                    StartTimer(seconds);
+                }
+            }
+            else
+            {
+                switch (oldCategory)
+                {
+                    case Category.All:
                         CategoryLabel = user.GameProperty.CategoryProperty = Category.All;
                         AllIsSelected = true;
                         CarsIsSelected = false;
@@ -673,7 +924,7 @@ namespace Hangman.ViewModels
                         RiversIsSelected = false;
                         StatesIsSelected = false;
                         break;
-                    case "Cars":
+                    case Category.Cars:
                         CategoryLabel = user.GameProperty.CategoryProperty = Category.Cars;
                         AllIsSelected = false;
                         CarsIsSelected = true;
@@ -682,16 +933,7 @@ namespace Hangman.ViewModels
                         RiversIsSelected = false;
                         StatesIsSelected = false;
                         break;
-                    case "Mountains":
-                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
-                        AllIsSelected = false;
-                        CarsIsSelected = false;
-                        MoviesIsSelected = false;
-                        MountainsIsSelected = true;
-                        RiversIsSelected = false;
-                        StatesIsSelected = false;
-                        break;
-                    case "Movies":
+                    case Category.Movies:
                         CategoryLabel = user.GameProperty.CategoryProperty = Category.Movies;
                         AllIsSelected = false;
                         CarsIsSelected = false;
@@ -700,16 +942,7 @@ namespace Hangman.ViewModels
                         RiversIsSelected = false;
                         StatesIsSelected = false;
                         break;
-                    case "Rivers":
-                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
-                        AllIsSelected = false;
-                        CarsIsSelected = false;
-                        MoviesIsSelected = false;
-                        MountainsIsSelected = false;
-                        RiversIsSelected = true;
-                        StatesIsSelected = false;
-                        break;
-                    case "States":
+                    case Category.States:
                         CategoryLabel = user.GameProperty.CategoryProperty = Category.States;
                         AllIsSelected = false;
                         CarsIsSelected = false;
@@ -718,18 +951,27 @@ namespace Hangman.ViewModels
                         RiversIsSelected = false;
                         StatesIsSelected = true;
                         break;
+                    case Category.Mountains:
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Mountains;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = true;
+                        RiversIsSelected = false;
+                        StatesIsSelected = false;
+                        break;
+                    case Category.Rivers:
+                        CategoryLabel = user.GameProperty.CategoryProperty = Category.Rivers;
+                        AllIsSelected = false;
+                        CarsIsSelected = false;
+                        MoviesIsSelected = false;
+                        MountainsIsSelected = false;
+                        RiversIsSelected = true;
+                        StatesIsSelected = false;
+                        break;
                     default:
                         break;
                 }
-                user.GameProperty.LevelProperty = 1;
-                user.GameProperty.MistakesProperty = 0;
-                ResetButtons();
-                HomeViewModel homeViewModel = new HomeViewModel(user);
-                App.Current.MainWindow.DataContext = homeViewModel;
-            }
-            else
-            {
-                StartTimer(seconds);
             }
         }
 

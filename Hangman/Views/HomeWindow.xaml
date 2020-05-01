@@ -54,7 +54,7 @@
                 <MenuItem Header="Exit" Background="#2F815D" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="Categories" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
-                <MenuItem x:Name="AllMenuItem" Header="All categories" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=AllMenuItem}" IsChecked="{Binding AllIsSelected}"/>
+                <MenuItem x:Name="AllMenuItem" Header="All" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=AllMenuItem}" IsChecked="{Binding AllIsSelected}"/>
                 <MenuItem x:Name="CarsMenuItem" Header="Cars" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=CarsMenuItem}" IsChecked="{Binding CarsIsSelected}"/>
                 <MenuItem x:Name="MountainsMenuItem" Header="Mountains" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=MountainsMenuItem}" IsChecked="{Binding MountainsIsSelected}"/>
                 <MenuItem x:Name="MoviesMenuItem" Header="Movies" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=MoviesMenuItem}" IsChecked="{Binding MoviesIsSelected}"/>

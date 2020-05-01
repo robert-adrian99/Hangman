@@ -21,7 +21,7 @@ namespace Hangman.ViewModels
         public ChooseViewModel(User user)
         {
             this.user = user;
-            if (user.GameProperty != null)
+            if (user.GameProperty.SavedGame)
             {
                 CanExecuteCommand = true;
             }

@@ -63,8 +63,6 @@ namespace Hangman.ViewModels
             user.GameProperty.MistakesProperty = 0;
             user.GameProperty.WordOnDisplay = "";
             user.GameProperty.WordToGuess = "";
-            SerializationActions serializationActions = new SerializationActions();
-            Words words = serializationActions.DeserializeWords(Constants.WordsFile);
             HomeWindow window = new HomeWindow();
             HomeViewModel homeVM = new HomeViewModel(user);
             window.DataContext = homeVM;

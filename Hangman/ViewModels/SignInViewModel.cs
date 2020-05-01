@@ -171,6 +171,10 @@ namespace Hangman.ViewModels
 
         public void Play(object param)
         {
+            if (SelectedUser.GameProperty == null)
+            {
+                SelectedUser.GameProperty = new Game();
+            }
             ChooseWindow chooseWindow = new ChooseWindow();
             ChooseViewModel chooseVM = new ChooseViewModel(SelectedUser);
             chooseWindow.DataContext = chooseVM;

@@ -48,6 +48,8 @@ namespace Hangman.Models
         private Category category;
         [XmlAttribute]
         private int secondsRemaining;
+        [XmlAttribute]
+        private bool savedGame;
 
         public Game()
         {
@@ -57,6 +59,7 @@ namespace Hangman.Models
             MistakesProperty = 0;
             CategoryProperty = Category.None;
             SecondsRemaining = 0;
+            savedGame = false;
         }
 
         public int LevelProperty
@@ -134,6 +137,19 @@ namespace Hangman.Models
             {
                 secondsRemaining = value;
                 NotifyPropertyChanged("SecondsRemaining");
+            }
+        }
+
+        public bool SavedGame
+        {
+            get
+            {
+                return savedGame;
+            }
+            set
+            {
+                savedGame = value;
+                NotifyPropertyChanged("SavedGame");
             }
         }
     }

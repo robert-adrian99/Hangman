@@ -2,25 +2,53 @@
 <Users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <List>
     <User>
-      <Name>Robert</Name>
-      <ImageIndex>2</ImageIndex>
+      <Name>Adrian</Name>
+      <ImageIndex>6</ImageIndex>
       <GameProperty>
         <LevelProperty>1</LevelProperty>
-        <MistakesProperty>3</MistakesProperty>
+        <MistakesProperty>0</MistakesProperty>
         <CategoryProperty>All</CategoryProperty>
         <WordOnDisplay>＿ ＿ ＿ ＿ ＿ ＿ ＿ </WordOnDisplay>
-        <WordToGuess>VIKINGS</WordToGuess>
-        <SecondsRemaining>8</SecondsRemaining>
+        <WordToGuess>RENAULT</WordToGuess>
+        <SecondsRemaining>57</SecondsRemaining>
+        <SavedGame>true</SavedGame>
       </GameProperty>
       <StatisticsProperty>
         <WonGamesAll>0</WonGamesAll>
         <LostGamesAll>0</LostGamesAll>
         <WonGamesCars>0</WonGamesCars>
         <LostGamesCars>1</LostGamesCars>
-        <WonGamesMountains>0</WonGamesMountains>
-        <LostGamesMountains>0</LostGamesMountains>
-        <WonGamesMovies>1</WonGamesMovies>
+        <WonGamesMountains>4</WonGamesMountains>
+        <LostGamesMountains>1</LostGamesMountains>
+        <WonGamesMovies>0</WonGamesMovies>
         <LostGamesMovies>0</LostGamesMovies>
+        <WonGamesRivers>0</WonGamesRivers>
+        <LostGamesRivers>2</LostGamesRivers>
+        <WonGamesStates>0</WonGamesStates>
+        <LostGamesStates>0</LostGamesStates>
+      </StatisticsProperty>
+    </User>
+    <User>
+      <Name>Robert</Name>
+      <ImageIndex>2</ImageIndex>
+      <GameProperty>
+        <LevelProperty>1</LevelProperty>
+        <MistakesProperty>5</MistakesProperty>
+        <CategoryProperty>Mountains</CategoryProperty>
+        <WordOnDisplay>＿ ＿ U＿ ＿ ＿ ＿ </WordOnDisplay>
+        <WordToGuess>APUSENI</WordToGuess>
+        <SecondsRemaining>53</SecondsRemaining>
+        <SavedGame>true</SavedGame>
+      </GameProperty>
+      <StatisticsProperty>
+        <WonGamesAll>0</WonGamesAll>
+        <LostGamesAll>0</LostGamesAll>
+        <WonGamesCars>0</WonGamesCars>
+        <LostGamesCars>0</LostGamesCars>
+        <WonGamesMountains>1</WonGamesMountains>
+        <LostGamesMountains>3</LostGamesMountains>
+        <WonGamesMovies>0</WonGamesMovies>
+        <LostGamesMovies>1</LostGamesMovies>
         <WonGamesRivers>0</WonGamesRivers>
         <LostGamesRivers>0</LostGamesRivers>
         <WonGamesStates>0</WonGamesStates>
@@ -28,25 +56,26 @@
       </StatisticsProperty>
     </User>
     <User>
-      <Name>Adrian</Name>
-      <ImageIndex>6</ImageIndex>
+      <Name>Bucur</Name>
+      <ImageIndex>8</ImageIndex>
       <GameProperty>
-        <LevelProperty>1</LevelProperty>
-        <MistakesProperty>3</MistakesProperty>
+        <LevelProperty>3</LevelProperty>
+        <MistakesProperty>0</MistakesProperty>
         <CategoryProperty>Cars</CategoryProperty>
         <WordOnDisplay>＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ </WordOnDisplay>
-        <WordToGuess>PEUGEOUT</WordToGuess>
-        <SecondsRemaining>7</SecondsRemaining>
+        <WordToGuess>MERCEDES</WordToGuess>
+        <SecondsRemaining>55</SecondsRemaining>
+        <SavedGame>true</SavedGame>
       </GameProperty>
       <StatisticsProperty>
         <WonGamesAll>0</WonGamesAll>
-        <LostGamesAll>0</LostGamesAll>
+        <LostGamesAll>2</LostGamesAll>
         <WonGamesCars>0</WonGamesCars>
-        <LostGamesCars>1</LostGamesCars>
+        <LostGamesCars>2</LostGamesCars>
         <WonGamesMountains>0</WonGamesMountains>
-        <LostGamesMountains>0</LostGamesMountains>
+        <LostGamesMountains>3</LostGamesMountains>
         <WonGamesMovies>0</WonGamesMovies>
-        <LostGamesMovies>0</LostGamesMovies>
+        <LostGamesMovies>2</LostGamesMovies>
         <WonGamesRivers>0</WonGamesRivers>
         <LostGamesRivers>0</LostGamesRivers>
         <WonGamesStates>0</WonGamesStates>
