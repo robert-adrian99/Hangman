@@ -4,15 +4,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Hangman.ViewModels
 {
     public class StatisticsViewModel
     {
         private User user;
+        private Images images = new Images();
         public StatisticsViewModel(User user)
         {
             this.user = user;
+        }
+
+        public string Name
+        {
+            get
+            {
+                return user.Name;
+            }
+        }
+
+        public BitmapImage UserImageSource
+        {
+            get
+            {
+                return images.Emojis.ElementAt(user.ImageIndex);
+            }
         }
 
         public int WonGamesAll

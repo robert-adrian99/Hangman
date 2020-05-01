@@ -31,36 +31,41 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Won" FontFamily="MV Boli" FontSize="30" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="0" Grid.Column="1" Content="Lost" FontFamily="MV Boli" FontSize="30" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Nickname" FontSize="30" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="{Binding Name}" FontSize="30" Foreground="White" FontFamily="MV Boli" HorizontalContentAlignment="Right" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+
+            <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Height="100" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding UserImageSource}"/>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Won" FontFamily="MV Boli" FontSize="30" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="1" Content="Lost" FontFamily="MV Boli" FontSize="30" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="All Categories" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="{Binding WonGamesAll}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="1" Grid.Column="1" Content="{Binding LostGamesAll}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="All Categories" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="{Binding WonGamesAll}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="1" Content="{Binding LostGamesAll}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Cars" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="{Binding WonGamesCars}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="2" Grid.Column="1" Content="{Binding LostGamesCars}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Cars" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="{Binding WonGamesCars}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="4" Grid.Column="1" Content="{Binding LostGamesCars}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Mountains" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="{Binding WonGamesMountains}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="1" Content="{Binding LostGamesMountains}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Mountains" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="{Binding WonGamesMountains}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="1" Content="{Binding LostGamesMountains}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Movies" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="4" Grid.Column="0" Content="{Binding WonGamesMovies}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="4" Grid.Column="1" Content="{Binding LostGamesMovies}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="Movies" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="{Binding WonGamesMovies}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="6" Grid.Column="1" Content="{Binding LostGamesMovies}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Rivers" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="5" Grid.Column="0" Content="{Binding WonGamesRivers}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="5" Grid.Column="1" Content="{Binding LostGamesRivers}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Content="Rivers" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="0" Content="{Binding WonGamesRivers}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="1" Content="{Binding LostGamesRivers}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-            <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Content="States" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="6" Grid.Column="0" Content="{Binding WonGamesStates}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="6" Grid.Column="1" Content="{Binding LostGamesStates}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>            
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Content="States" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="8" Grid.Column="0" Content="{Binding WonGamesStates}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="8" Grid.Column="1" Content="{Binding LostGamesStates}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>            
             
-            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Content="Total" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="8" Grid.Column="0" Content="{Binding TotalWonGames}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Grid.Row="8" Grid.Column="1" Content="{Binding TotalLostGames}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Content="Total" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="9" Grid.Column="0" Content="{Binding TotalWonGames}" FontFamily="MV Boli" FontSize="20" Foreground="LimeGreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Grid.Row="9" Grid.Column="1" Content="{Binding TotalLostGames}" FontFamily="MV Boli" FontSize="20" Foreground="Red" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
 
             <Label Grid.Row="10" Grid.Column="0" Content="Total games played" FontFamily="MV Boli" FontSize="30" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>

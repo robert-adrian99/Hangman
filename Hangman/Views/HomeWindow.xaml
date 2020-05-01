@@ -48,10 +48,10 @@
 
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="100" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
             <MenuItem Header="File" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
-                <MenuItem Header="New" Background="#2F815D"/>
+                <MenuItem Header="New" Background="#2F815D" Command="{Binding NewCommand}"/>
                 <MenuItem Header="Save" Background="#2F815D" Command="{Binding SaveCommand}"/>
                 <MenuItem Header="Statistics" Background="#2F815D" Command="{Binding StatisticsCommand}"/>
-                <MenuItem Header="Exit" Background="#2F815D"/>
+                <MenuItem Header="Exit" Background="#2F815D" Command="{Binding ExitCommand}"/>
             </MenuItem>
             <MenuItem Header="Categories" FontSize="20" FontFamily="MV Boli" Foreground="White" BorderThickness="1" Background="Transparent">
                 <MenuItem x:Name="AllMenuItem" Header="All categories" Background="#2F815D" IsCheckable="True" Command="{Binding SelectCategoryCommand}" CommandParameter="{Binding ElementName=AllMenuItem}" IsChecked="{Binding AllIsSelected}"/>

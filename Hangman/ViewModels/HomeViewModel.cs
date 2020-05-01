@@ -314,6 +314,7 @@ namespace Hangman.ViewModels
                         userInList.StatisticsProperty = user.StatisticsProperty;
                     }
                 }
+                serializationActions.SerializeUsers(Constants.UsersFile, users);
                 HangImageSource = images.Hangs[++user.GameProperty.MistakesProperty];
                 ShowMessageBox("You lost", "You lost this game on " + user.GameProperty.CategoryProperty.ToString() + ".\nDo you want to start a new game on the same category?", MessageBoxImage.Error);
             }
@@ -413,6 +414,7 @@ namespace Hangman.ViewModels
                     userInList.StatisticsProperty = user.StatisticsProperty;
                 }
             }
+            serializationActions.SerializeUsers(Constants.UsersFile, users);
             ShowMessageBox("Time has expired", "Time has expired!\nDo you want to start a new game on the same category?", MessageBoxImage.Warning);
         }
 
@@ -467,8 +469,11 @@ namespace Hangman.ViewModels
 
         public void About(object param)
         {
+            int seconds = (deadline - DateTime.Now).Seconds;
+            StopTimer();
             AboutWindow aboutWindow = new AboutWindow();
-            aboutWindow.Show();
+            aboutWindow.ShowDialog();
+            StartTimer(seconds);
         }
 
         private ICommand selectCategoryCommand;
@@ -504,9 +509,140 @@ namespace Hangman.ViewModels
             StatisticsWindow statisticsWindow = new StatisticsWindow();
             StatisticsViewModel statisticsVM = new StatisticsViewModel(user);
             statisticsWindow.DataContext = statisticsVM;
-            //statisticsWindow.Name = "statisticsWindow";
             statisticsWindow.ShowDialog();
             StartTimer(seconds);
+        }
+
+        private ICommand newCommand;
+        public ICommand NewCommand
+        {
+            get
+            {
+                if (newCommand == null)
+                {
+                    newCommand = new RelayCommand(NewPressed);
+                }
+                return newCommand;
+            }
+        }
+
+        public void NewPressed(object param)
+        {
+            int seconds = (deadline - DateTime.Now).Seconds;
+            StopTimer();
+            MessageBoxResult messageBoxResult = MessageBox.Show("If you start a new game this game will count as lost.\nAre you sure you want to start a new game?", "New game", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                user.GameProperty.MistakesProperty = 0;
+                user.GameProperty.LevelProperty = 1;
+                switch (user.GameProperty.CategoryProperty)
+                {
+                    case Category.All:
+                        user.StatisticsProperty.LostGamesAll += 1;
+                        break;
+                    case Category.Cars:
+                        user.StatisticsProperty.LostGamesCars += 1;
+                        break;
+                    case Category.Movies:
+                        user.StatisticsProperty.LostGamesMovies += 1;
+                        break;
+                    case Category.States:
+                        user.StatisticsProperty.LostGamesStates += 1;
+                        break;
+                    case Category.Mountains:
+                        user.StatisticsProperty.LostGamesMountains += 1;
+                        break;
+                    case Category.Rivers:
+                        user.StatisticsProperty.LostGamesRivers += 1;
+                        break;
+                    default:
+                        break;
+                }
+                foreach (var userInList in users.List)
+                {
+                    if (userInList.Name == user.Name)
+                    {
+                        userInList.StatisticsProperty = user.StatisticsProperty;
+                    }
+                }
+                serializationActions.SerializeUsers(Constants.UsersFile, users);
+                CategoryWindow categoryWindow = new CategoryWindow();
+                CategoryViewModel categoryVM = new CategoryViewModel(user);
+                categoryWindow.DataContext = categoryVM;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = categoryWindow;
+                categoryWindow.Show();
+            }
+            else
+            {
+                StartTimer(seconds);
+            }
+        }
+
+        private ICommand exitCommand;
+        public ICommand ExitCommand
+        {
+            get
+            {
+                if (exitCommand == null)
+                {
+                    exitCommand = new RelayCommand(ExitPressed);
+                }
+                return exitCommand;
+            }
+        }
+
+        public void ExitPressed(object param)
+        {
+            int seconds = (deadline - DateTime.Now).Seconds;
+            StopTimer();
+            MessageBoxResult messageBoxResult = MessageBox.Show("If you exit this game will count as lost.\nAre you sure you want to exit?", "Exit game", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                user.GameProperty.MistakesProperty = 0;
+                user.GameProperty.LevelProperty = 1;
+                switch (user.GameProperty.CategoryProperty)
+                {
+                    case Category.All:
+                        user.StatisticsProperty.LostGamesAll += 1;
+                        break;
+                    case Category.Cars:
+                        user.StatisticsProperty.LostGamesCars += 1;
+                        break;
+                    case Category.Movies:
+                        user.StatisticsProperty.LostGamesMovies += 1;
+                        break;
+                    case Category.States:
+                        user.StatisticsProperty.LostGamesStates += 1;
+                        break;
+                    case Category.Mountains:
+                        user.StatisticsProperty.LostGamesMountains += 1;
+                        break;
+                    case Category.Rivers:
+                        user.StatisticsProperty.LostGamesRivers += 1;
+                        break;
+                    default:
+                        break;
+                }
+                foreach (var userInList in users.List)
+                {
+                    if (userInList.Name == user.Name)
+                    {
+                        userInList.StatisticsProperty = user.StatisticsProperty;
+                    }
+                }
+                serializationActions.SerializeUsers(Constants.UsersFile, users);
+                SignInWindow signInWindow = new SignInWindow();
+                SignInViewModel signInVM = new SignInViewModel(users);
+                signInWindow.DataContext = signInVM;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = signInWindow;
+                signInWindow.Show();
+            }
+            else
+            {
+                StartTimer(seconds);
+            }
         }
 
         public void ResetButtons()
@@ -681,17 +817,6 @@ namespace Hangman.ViewModels
             }
         }
 
-        public string DispatcherTimer
-        {
-            get
-            {
-                if ((deadline - DateTime.Now).Seconds < 10)
-                {
-                    return (deadline - DateTime.Now).Minutes.ToString() + ":0" + (deadline - DateTime.Now).Seconds.ToString();
-                }
-                return (deadline - DateTime.Now).Minutes.ToString() + ":" + (deadline - DateTime.Now).Seconds.ToString();
-            }
-        }
         private void StartTimer(int seconds)
         {
             deadline = DateTime.Now.AddSeconds(seconds);
