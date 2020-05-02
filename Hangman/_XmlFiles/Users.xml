@@ -29,33 +29,6 @@
       </StatisticsProperty>
     </User>
     <User>
-      <Name>Robert</Name>
-      <ImageIndex>2</ImageIndex>
-      <GameProperty>
-        <LevelProperty>1</LevelProperty>
-        <MistakesProperty>5</MistakesProperty>
-        <CategoryProperty>Mountains</CategoryProperty>
-        <WordOnDisplay>＿ ＿ U＿ ＿ ＿ ＿ </WordOnDisplay>
-        <WordToGuess>APUSENI</WordToGuess>
-        <SecondsRemaining>53</SecondsRemaining>
-        <SavedGame>true</SavedGame>
-      </GameProperty>
-      <StatisticsProperty>
-        <WonGamesAll>0</WonGamesAll>
-        <LostGamesAll>0</LostGamesAll>
-        <WonGamesCars>0</WonGamesCars>
-        <LostGamesCars>0</LostGamesCars>
-        <WonGamesMountains>1</WonGamesMountains>
-        <LostGamesMountains>3</LostGamesMountains>
-        <WonGamesMovies>0</WonGamesMovies>
-        <LostGamesMovies>1</LostGamesMovies>
-        <WonGamesRivers>0</WonGamesRivers>
-        <LostGamesRivers>0</LostGamesRivers>
-        <WonGamesStates>0</WonGamesStates>
-        <LostGamesStates>0</LostGamesStates>
-      </StatisticsProperty>
-    </User>
-    <User>
       <Name>Bucur</Name>
       <ImageIndex>8</ImageIndex>
       <GameProperty>
@@ -76,6 +49,33 @@
         <LostGamesMountains>3</LostGamesMountains>
         <WonGamesMovies>0</WonGamesMovies>
         <LostGamesMovies>2</LostGamesMovies>
+        <WonGamesRivers>0</WonGamesRivers>
+        <LostGamesRivers>0</LostGamesRivers>
+        <WonGamesStates>0</WonGamesStates>
+        <LostGamesStates>0</LostGamesStates>
+      </StatisticsProperty>
+    </User>
+    <User>
+      <Name>Robert</Name>
+      <ImageIndex>2</ImageIndex>
+      <GameProperty>
+        <LevelProperty>1</LevelProperty>
+        <MistakesProperty>5</MistakesProperty>
+        <CategoryProperty>Mountains</CategoryProperty>
+        <WordOnDisplay>＿ ＿ U＿ ＿ ＿ ＿ </WordOnDisplay>
+        <WordToGuess>APUSENI</WordToGuess>
+        <SecondsRemaining>53</SecondsRemaining>
+        <SavedGame>true</SavedGame>
+      </GameProperty>
+      <StatisticsProperty>
+        <WonGamesAll>0</WonGamesAll>
+        <LostGamesAll>0</LostGamesAll>
+        <WonGamesCars>0</WonGamesCars>
+        <LostGamesCars>0</LostGamesCars>
+        <WonGamesMountains>1</WonGamesMountains>
+        <LostGamesMountains>4</LostGamesMountains>
+        <WonGamesMovies>0</WonGamesMovies>
+        <LostGamesMovies>1</LostGamesMovies>
         <WonGamesRivers>0</WonGamesRivers>
         <LostGamesRivers>0</LostGamesRivers>
         <WonGamesStates>0</WonGamesStates>
