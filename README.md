@@ -1,5 +1,5 @@
 # Hangman
-My version of Hangman made in C# using WPF.
+**My version of Hangman made in C# using WPF.**
 
 - This project is an implementation of Hangman in C# using WPF in Visual Studio.
 - I created this application as part of the Visual Programming Enviroments' laboratories at the university.
