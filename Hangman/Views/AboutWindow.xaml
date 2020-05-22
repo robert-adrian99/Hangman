@@ -21,7 +21,7 @@
             <TextBlock x:Name="numberOfProcessorsTextBlock" FontSize="15"></TextBlock>
             <TextBlock x:Name="osVersionTextBlock" FontSize="15"></TextBlock>
             <TextBlock FontSize="15"> 🌍
-            <Hyperlink RequestNavigate="LinkRequestNavigate"  NavigateUri="https://intranet.unitbv.ro/BucurRobertAdrian" Cursor="Hand">https://intranet.unitbv.ro/BucurRobertAdrian</Hyperlink>
+            <Hyperlink RequestNavigate="LinkRequestNavigate"  NavigateUri="https://github.com/robert-adrian99" Cursor="Hand">https://github.com/robert-adrian99</Hyperlink>
             </TextBlock>
         </StackPanel>
         <Button Grid.Row="1" Content="Ok" FontSize="15" Click="OkButtonClick" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10" Height="30" Width="100"></Button>
