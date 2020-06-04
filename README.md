@@ -2,7 +2,7 @@
 **My version of Hangman made in C# using WPF.**
 
 - This project is an implementation of Hangman in C# using WPF in Visual Studio.
-- I created this application as part of the Visual Programming Enviroments' laboratories at the university.
+- I created this application as part of the Visual Programming Environments' laboratories at the university.
 - This app is structured on the Model-View-ViewModel architecture.
 - The user data, like name, profile picture - selected from a list of images - state of the game, word to be guessed, number of mistakes, level, is stored persistently using XML serilization.
 - This data is found in User.xml. Words grouped by category are stored in Words.xml.
